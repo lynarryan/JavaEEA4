@@ -8,29 +8,74 @@
 	<packaging>war</packaging>
 	<name>Assignment4JavaEE</name>
 	<description>RESTful Server with JPA </description>
-	
+
 	<properties>
-	   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.source.level>1.8</project.source.level>
 		<project.target.level>1.8</project.target.level>
 		<maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
 		<maven.war.plugin.version>3.2.2</maven.war.plugin.version>
-        
+		<slf4j.version>1.7.25</slf4j.version>
+		<logback.version>1.2.3</logback.version>
+		<javaee.api.version>8.0</javaee.api.version>
+		<jackson-jaxrs-provider.version>2.9.8</jackson-jaxrs-provider.version>
+		<eclipselink.version>2.7.3</eclipselink.version>
+		<eclipse.microprofile.openapi.version>[1.0,2)</eclipse.microprofile.openapi.version>
+		<javaee.security.version>1.0</javaee.security.version>
 	</properties>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>${javaee.api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.extension</artifactId>
+			<version>${eclipselink.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.microprofile.openapi</groupId>
+			<artifactId>microprofile-openapi-api</artifactId>
+			<version>${eclipse.microprofile.openapi.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.soteria</groupId>
+			<artifactId>javax.security.enterprise</artifactId>
+			<version>${javaee.security.version}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
 	<build>
+		<finalName>a4</finalName>
 		<plugins>
-		<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${maven.war.plugin.version}</version>
-                <configuration>
-                    <archive>
-                        <addMavenDescriptor>false</addMavenDescriptor>
-                    </archive>
-                </configuration>
-            </plugin>
-            
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${maven.war.plugin.version}</version>
+				<configuration>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+					</archive>
+				</configuration>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
