@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>Assignment4JavaEE</groupId>
+	<artifactId>Assignment4JavaEE</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>Assignment4JavaEE</name>
+	<description>RESTful Server with JPA </description>
+	
+	<properties>
+	   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.source.level>1.8</project.source.level>
+		<project.target.level>1.8</project.target.level>
+		<maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
+		<maven.war.plugin.version>3.2.2</maven.war.plugin.version>
+        
+	</properties>
+
+	<build>
+		<plugins>
+		<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven.war.plugin.version}</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                </configuration>
+            </plugin>
+            
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.plugin.version}</version>
+				<configuration>
+					<source>${project.source.level}</source>
+					<target>${project.target.level}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<compilerArgument>-proc:none</compilerArgument>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
