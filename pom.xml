@@ -8,6 +8,7 @@
 	<packaging>war</packaging>
 	<name>Assignment4JavaEE</name>
 	<description>RESTful Server with JPA </description>
+	
 	<properties>
 	   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.source.level>1.8</project.source.level>
