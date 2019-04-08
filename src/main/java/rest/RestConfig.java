@@ -7,7 +7,6 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.GET;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-
 @ApplicationPath("")
 public class RestConfig extends Application {
 
@@ -16,6 +15,7 @@ public class RestConfig extends Application {
         Set<Class<?>> resources = new HashSet<>();
         resources.add(UserApi.class);
         resources.add(BlogApi.class);
+        resources.add(PostApi.class);
         return resources;
     }
 

@@ -1,7 +1,6 @@
 package rest;
 
 import javax.ejb.EJB;
-import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,26 +10,24 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import ejb.PostManager;
 
-import ejb.BlogManager;
-
-@Path("/blog/")
-public class BlogApi {
-
+@Path("/post")
+public class PostApi {
     @EJB
-    protected BlogManager blogBean;
-
+    protected PostManager postBean;
     @GET
-    @Path("/find")
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/find")
     public Response findByID(@QueryParam("id") int id) {
         // TODO Find by ID + Behaviour
         return Response.ok().entity("" + id).build();
     }
 
+    
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createBlog(String body) {
+    public Response createPost(String body) {
         // Test
         System.out.println("body: " + body);
         return Response.ok().build();
@@ -38,21 +35,20 @@ public class BlogApi {
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateBlog(String body) {
+    public Response updatePost(String body) {
         return Response.ok().entity("ToUpdateUser: " + body).build();
     }
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteBlog(@QueryParam("id") int id) {
-        blogBean.outputValidBean();
+    public Response deletePost(@QueryParam("id") int id) {
         return Response.ok().entity("Deleteing user " + id).build();
     }
-    
+
     @GET
     @Path("/list")
-    public Response listBlogs() {
-        return Response.ok().entity("Returning a list of blogs").build();
+    public Response listPosts() {
+        return Response.ok().entity("Returning a list of posts").build();
     }
 
 }
