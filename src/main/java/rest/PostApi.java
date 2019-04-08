@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+@Path("/post")
 public class PostApi {
     @GET
     @Path("/find")
