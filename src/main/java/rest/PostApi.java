@@ -8,9 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-@Path("/blog/")
-public class BlogApi {
-    
+public class PostApi {
     @GET
     @Path("/find")
     public Response findByID(@QueryParam("id") int id) {
@@ -20,19 +18,19 @@ public class BlogApi {
 
     
     @POST
-    public Response createBlog(String body) {
+    public Response createPost(String body) {
         // Test
         System.out.println("body: " + body);
         return Response.ok().build();
     }
 
     @PUT
-    public Response updateBlog(String body) {
+    public Response updatePost(String body) {
         return Response.ok().entity("ToUpdateUser: " + body).build();
     }
 
     @DELETE
-    public Response deleteBlog(@QueryParam("id") int id) {
+    public Response deletePost(@QueryParam("id") int id) {
         return Response.ok().entity("Deleteing user " + id).build();
     }
 
