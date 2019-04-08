@@ -52,5 +52,10 @@ public class UserApi {
      public Response deleteUser(@QueryParam("id") int id) {
         return Response.ok().entity("Deleteing user " + id).build();
     }
+    @GET
+    @Path("/list")
+    public Response listUsers() {
+        return Response.ok().entity("Returning a list of users").build();
+    }
 
 }

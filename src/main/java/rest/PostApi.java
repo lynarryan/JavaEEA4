@@ -45,4 +45,10 @@ public class PostApi {
         return Response.ok().entity("Deleteing user " + id).build();
     }
 
+    @GET
+    @Path("/list")
+    public Response listPosts() {
+        return Response.ok().entity("Returning a list of posts").build();
+    }
+
 }

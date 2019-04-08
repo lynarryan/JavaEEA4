@@ -48,5 +48,11 @@ public class BlogApi {
         blogBean.outputValidBean();
         return Response.ok().entity("Deleteing user " + id).build();
     }
+    
+    @GET
+    @Path("/list")
+    public Response listBlogs() {
+        return Response.ok().entity("Returning a list of blogs").build();
+    }
 
 }
