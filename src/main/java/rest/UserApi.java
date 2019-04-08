@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response;
 public class UserApi {
 
     @GET
-
     @Path("/find/id")
     public Response findByID(@QueryParam("id") int id) {
         // TODO Find by ID + Behaviour
