@@ -1,6 +1,7 @@
 package models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -19,7 +20,7 @@ public class BlogUser extends ModelBase implements Serializable{
     protected String lastName;
     protected String email;
     protected PlatformUser platformUser;
-    private List<BlogPost> posts;
+    private List<Blog> blogs = new ArrayList<>();
     private List<Comment> comments;
     
     /**
@@ -64,12 +65,16 @@ public class BlogUser extends ModelBase implements Serializable{
     }
     
     @OneToMany(mappedBy="user", cascade=CascadeType.REMOVE)
-    public List<BlogPost> getPosts() {
-        return posts;
+    public List<Blog> getBlogs() {
+        return blogs;
     }
 
-    public void setPosts(List<BlogPost> posts) {
-        this.posts = posts;
+    public void setBlogs(List<Blog> blogs) {
+        this.blogs = blogs;
+    }
+    
+    public void addBlog(Blog blog) {
+        this.blogs.add(blog);
     }
     
     @OneToMany(mappedBy="user", cascade=CascadeType.REMOVE)

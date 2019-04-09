@@ -1,6 +1,7 @@
 package models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,59 +12,44 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
-/**
- * The Post class demonstrates:
- * <ul>
- * <li>Generated Id
- * <li>Version locking
- * <li>ManyToOne mapping
- * </ul>
- */
 @Entity
 @EntityListeners({AuditListener.class})
-@Table(name="BLOG_POST")
-public class BlogPost extends ModelBase implements Serializable {
+@Table(name="BLOG")
+public class Blog extends ModelBase implements Serializable {
     
     /** explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
-
+    protected BlogUser user;
+    protected String blogName;
+    private List<BlogPost> posts = new ArrayList<>();
     
-    protected String postText;
-    protected Blog blog;
-    protected List<Comment> comment;
-    
-    public String getPostText() {
-        return postText;
-    }
-
-    public void setPostText(String postText) {
-        this.postText = postText;
-    }
-
-    public BlogPost() {
+    public Blog(){
         super();
     }
     
-    @OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE)
-    public List<Comment> getComment() {
-        return comment;
+    
+    @OneToMany(mappedBy="blog", cascade=CascadeType.REMOVE)
+    public List<BlogPost> getBlogs() {
+        return posts;
     }
 
-    public void setComment(List<Comment> comment) {
-        this.comment = comment;
+    public void setBlogs(List<BlogPost> posts) {
+        this.posts = posts;
     }
     
-    public void setBlogUser(Blog blog) {
-        this.blog = blog;
+    public void addBlog(BlogPost post) {
+        this.posts.add(post);
+    }
+    
+    public void setBlogUser(BlogUser user) {
+        this.user = user;
     }
     
     @ManyToOne
-    @JoinColumn(name="BLOG_ID", nullable=false)
-    public Blog getBlog() {
-        return this.blog;
+    @JoinColumn(name="BLOG_USER_ID", nullable=false)
+    public BlogUser getBlogUser() {
+        return this.user;
     }
-    
     
     @Override
     public int hashCode() {
@@ -81,10 +67,10 @@ public class BlogPost extends ModelBase implements Serializable {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof BlogPost)) {
+        if (!(obj instanceof Blog)) {
             return false;
         }
-        BlogPost other = (BlogPost)obj;
+        Blog other = (Blog)obj;
         if (id != other.id) {
             return false;
         }
