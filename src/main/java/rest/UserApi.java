@@ -14,13 +14,16 @@ import ejb.UserManager;
 
 @Path("/user")
 public class UserApi {
-
+    
+    @EJB
+    UserManager userBean;
+    
     @GET
     @Path("/find/id")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findByID(@QueryParam("id") int id) {
         // TODO Find by ID + Behaviour
-        return Response.ok().entity("" + id).build();
+        return Response.ok().entity(userBean.find(id)).build();
     }
 
     @GET

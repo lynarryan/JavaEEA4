@@ -14,6 +14,8 @@ import ejb.PostManager;
 
 @Path("/post")
 public class PostApi {
+    @EJB
+    PostManager postBean;
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/find")

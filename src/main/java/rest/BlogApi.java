@@ -17,7 +17,9 @@ import ejb.BlogManager;
 @Path("/blog/")
 public class BlogApi {
 
-
+    @EJB
+    BlogManager blogBean;
+    
     @GET
     @Path("/find")
     @Produces(MediaType.APPLICATION_JSON)
