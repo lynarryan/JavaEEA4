@@ -30,7 +30,7 @@ public class BlogPost extends ModelBase implements Serializable {
 
     
     protected String postText;
-    protected BlogUser user;
+    protected Blog blog;
     protected List<Comment> comment;
     
     public String getPostText() {
@@ -54,14 +54,18 @@ public class BlogPost extends ModelBase implements Serializable {
         this.comment = comment;
     }
     
-    public void setBlogUser(BlogUser user) {
-        this.user = user;
+    public void setBlogUser(Blog blog) {
+        this.blog = blog;
     }
     
     @ManyToOne
-    @JoinColumn(name="BLOG_USER_ID", nullable=false)
-    public BlogUser getBlogUser() {
-        return this.user;
+    @JoinColumn(name="BLOG_ID", nullable=false)
+    public Blog getBlog() {
+        return this.blog;
+    }
+    public void setBlog(Blog b) {
+        this.blog = b;
+        b.addBlog(this);
     }
     
     
