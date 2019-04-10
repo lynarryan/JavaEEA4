@@ -72,7 +72,7 @@ public class BlogUser extends ModelBase implements Serializable{
     public void setBlogs(List<Blog> blogs) {
         this.blogs = blogs;
     }
-    
+        
     public void addBlog(Blog blog) {
         this.blogs.add(blog);
     }
