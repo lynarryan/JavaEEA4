@@ -23,7 +23,7 @@ public class UserApi {
     @Produces(MediaType.APPLICATION_JSON)
     public Response findByID(@QueryParam("id") int id) {
         // TODO Find by ID + Behaviour
-        return Response.ok().entity(userBean.find(id)).build();
+        return Response.ok().build();
     }
 
     @GET
