@@ -64,7 +64,7 @@ public class BlogUser extends ModelBase implements Serializable{
         this.email = email;
     }
     
-    @OneToMany(mappedBy="user", cascade=CascadeType.REMOVE)
+    @OneToMany( cascade=CascadeType.REMOVE)
     public List<Blog> getBlogs() {
         return blogs;
     }
@@ -77,7 +77,7 @@ public class BlogUser extends ModelBase implements Serializable{
         this.blogs.add(blog);
     }
     
-    @OneToMany(mappedBy="user", cascade=CascadeType.REMOVE)
+    @OneToMany( cascade=CascadeType.REMOVE)
     public List<Comment> getComments() {
         return comments;
     }
