@@ -18,8 +18,8 @@ import ejb.BlogManager;
 public class BlogApi {
 
     @EJB
-    protected BlogManager blogBean;
-
+    BlogManager blogBean;
+    
     @GET
     @Path("/find")
     @Produces(MediaType.APPLICATION_JSON)
@@ -45,7 +45,6 @@ public class BlogApi {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteBlog(@QueryParam("id") int id) {
-        blogBean.outputValidBean();
         return Response.ok().entity("Deleteing user " + id).build();
     }
     

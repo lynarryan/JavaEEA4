@@ -16,13 +16,18 @@
 		<maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
 		<maven.war.plugin.version>3.2.2</maven.war.plugin.version>
 		<maven.processor.plugin.version>3.3.3</maven.processor.plugin.version>
-        <slf4j.version>1.7.25</slf4j.version>
+		<maven.build.helper.plugin.version>3.0.0</maven.build.helper.plugin.version>
+		<slf4j.version>1.7.25</slf4j.version>
 		<logback.version>1.2.3</logback.version>
 		<javaee.api.version>8.0</javaee.api.version>
+		<javax.persistence.version>2.2</javax.persistence.version>
+
 		<jackson-jaxrs-provider.version>2.9.8</jackson-jaxrs-provider.version>
 		<eclipselink.version>2.7.3</eclipselink.version>
 		<eclipse.microprofile.openapi.version>[1.0,2)</eclipse.microprofile.openapi.version>
 		<javaee.security.version>1.0</javaee.security.version>
+		<h2.version>1.4.197</h2.version>
+
 	</properties>
 
 	<dependencies>
@@ -44,23 +49,42 @@
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>org.eclipse.persistence.extension</artifactId>
+			<artifactId>eclipselink</artifactId>
 			<version>${eclipselink.version}</version>
-			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.eclipse.persistence</groupId>
+					<artifactId>javax.persistence</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.microprofile.openapi</groupId>
-			<artifactId>microprofile-openapi-api</artifactId>
-			<version>${eclipse.microprofile.openapi.version}</version>
-			<scope>provided</scope>
+			<groupId>javax.persistence</groupId>
+			<artifactId>javax.persistence-api</artifactId>
+			<version>${javax.persistence.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
+			<version>${eclipselink.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.extension</artifactId>
+			<version>${eclipselink.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.glassfish.soteria</groupId>
 			<artifactId>javax.security.enterprise</artifactId>
 			<version>${javaee.security.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${h2.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -76,7 +100,6 @@
 					</archive>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -87,6 +110,25 @@
 					<encoding>${project.build.sourceEncoding}</encoding>
 					<compilerArgument>-proc:none</compilerArgument>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>${maven.build.helper.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/metamodel</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.bsc.maven</groupId>
