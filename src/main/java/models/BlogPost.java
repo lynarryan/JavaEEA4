@@ -63,6 +63,10 @@ public class BlogPost extends ModelBase implements Serializable {
     public Blog getBlog() {
         return this.blog;
     }
+    public void setBlog(Blog b) {
+        this.blog = b;
+        b.addBlog(this);
+    }
     
     
     @Override

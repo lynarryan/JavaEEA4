@@ -14,15 +14,16 @@ import ejb.UserManager;
 
 @Path("/user")
 public class UserApi {
-
+    
     @EJB
-    protected UserManager userBean;
+    UserManager userBean;
+    
     @GET
     @Path("/find/id")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findByID(@QueryParam("id") int id) {
         // TODO Find by ID + Behaviour
-        return Response.ok().entity("" + id).build();
+        return Response.ok().build();
     }
 
     @GET
@@ -49,9 +50,10 @@ public class UserApi {
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-     public Response deleteUser(@QueryParam("id") int id) {
+    public Response deleteUser(@QueryParam("id") int id) {
         return Response.ok().entity("Deleteing user " + id).build();
     }
+
     @GET
     @Path("/list")
     public Response listUsers() {
