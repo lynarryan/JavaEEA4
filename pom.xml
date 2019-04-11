@@ -27,6 +27,7 @@
 		<eclipse.microprofile.openapi.version>[1.0,2)</eclipse.microprofile.openapi.version>
 		<javaee.security.version>1.0</javaee.security.version>
 		<h2.version>1.4.197</h2.version>
+		<junit.version>4.12</junit.version>
 
 	</properties>
 
@@ -84,6 +85,13 @@
 			<artifactId>h2</artifactId>
 			<version>${h2.version}</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
 
 	</dependencies>
 
