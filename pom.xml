@@ -2,8 +2,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>Assignment4JavaEE</groupId>
-	<artifactId>Assignment4JavaEE</artifactId>
+	
+	<groupId>Assingment4JavaEE</groupId>
+	<artifactId>Assingment4JavaEE</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Assignment4JavaEE</name>
@@ -65,11 +66,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
-			<version>${eclipselink.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.extension</artifactId>
 			<version>${eclipselink.version}</version>
 		</dependency>
@@ -88,7 +84,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>a4</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -108,52 +103,7 @@
 					<source>${project.source.level}</source>
 					<target>${project.target.level}</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
-					<compilerArgument>-proc:none</compilerArgument>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>${maven.build.helper.plugin.version}</version>
-				<executions>
-					<execution>
-						<id>add-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${project.build.directory}/metamodel</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.bsc.maven</groupId>
-				<artifactId>maven-processor-plugin</artifactId>
-				<version>${maven.processor.plugin.version}</version>
-				<executions>
-					<execution>
-						<id>process</id>
-						<goals>
-							<goal>process</goal>
-						</goals>
-						<phase>generate-sources</phase>
-						<configuration>
-							<options>
-								<eclipselink.persistencexml>${basedir}/src/main/resources/META-INF/persistence.xml</eclipselink.persistencexml>
-							</options>
-							<sourceDirectory>${basedir}/src/main/java</sourceDirectory>
-							<outputDirectory>${project.build.directory}/metamodel</outputDirectory>
-							<processors>
-								<processor>org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor</processor>
-							</processors>
-							<overwrite>true</overwrite>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
