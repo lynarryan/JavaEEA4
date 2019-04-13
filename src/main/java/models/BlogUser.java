@@ -13,23 +13,23 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="BLOG_USER")
-@EntityListeners({AuditListener.class})
-public class BlogUser extends ModelBase implements Serializable{
+@Table(name = "BLOG_USER")
+@EntityListeners({ AuditListener.class })
+public class BlogUser extends ModelBase implements Serializable {
     protected String firstName;
     protected String lastName;
     protected String email;
     protected PlatformUser platformUser;
     private List<Blog> blogs = new ArrayList<>();
     private List<Comment> comments;
-    
+
     /**
-     * Default constructor 
+     * Default constructor
      */
     public BlogUser() {
         super();
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
@@ -49,7 +49,7 @@ public class BlogUser extends ModelBase implements Serializable{
     public String getEmail() {
         return email;
     }
-    
+
     @OneToOne
     @JoinColumn(name = "PLAT_USER_ID")
     public PlatformUser getPlatformUser() {
@@ -63,8 +63,8 @@ public class BlogUser extends ModelBase implements Serializable{
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    @OneToMany(cascade=CascadeType.REMOVE)
+
+    @OneToMany(cascade = CascadeType.REMOVE)
     public List<Blog> getBlogs() {
         return blogs;
     }
@@ -72,12 +72,15 @@ public class BlogUser extends ModelBase implements Serializable{
     public void setBlogs(List<Blog> blogs) {
         this.blogs = blogs;
     }
-        
+
     public void addBlog(Blog blog) {
-        this.blogs.add(blog);
+        if (!this.blogs.contains(blog)) {
+            blog.setBlogUser(this);
+            this.blogs.add(blog);
+        }
     }
-    
-    @OneToMany( cascade=CascadeType.REMOVE)
+
+    @OneToMany(cascade = CascadeType.REMOVE)
     public List<Comment> getComments() {
         return comments;
     }
@@ -85,8 +88,17 @@ public class BlogUser extends ModelBase implements Serializable{
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
-    
-    /* (non-Javadoc)
+
+    public void addComment(Comment comment) {
+        if (!this.comments.contains(comment)) {
+            this.comments.add(comment);
+            comment.setBlogUser(this);
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -97,7 +109,9 @@ public class BlogUser extends ModelBase implements Serializable{
         return result;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -111,12 +125,11 @@ public class BlogUser extends ModelBase implements Serializable{
         if (!(obj instanceof BlogUser)) {
             return false;
         }
-        BlogUser other = (BlogUser)obj;
+        BlogUser other = (BlogUser) obj;
         if (id != other.id) {
             return false;
         }
         return true;
     }
 
-  
 }

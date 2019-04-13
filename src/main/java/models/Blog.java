@@ -13,30 +13,29 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@EntityListeners({AuditListener.class})
-@Table(name="BLOG")
+@EntityListeners({ AuditListener.class })
+@Table(name = "BLOG")
 public class Blog extends ModelBase implements Serializable {
-    
+
     /** explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
     protected BlogUser user;
     protected String blogName;
     private List<BlogPost> posts = new ArrayList<>();
-    
-    public Blog(){
+
+    public Blog() {
         super();
     }
-    
+
     public String getBlogName() {
         return blogName;
     }
 
-
     public void setBlogName(String blogName) {
         this.blogName = blogName;
     }
-    
-    @OneToMany(mappedBy="blog", cascade=CascadeType.REMOVE)
+
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.REMOVE)
     public List<BlogPost> getBlogs() {
         return posts;
     }
@@ -44,21 +43,24 @@ public class Blog extends ModelBase implements Serializable {
     public void setBlogs(List<BlogPost> posts) {
         this.posts = posts;
     }
-    
+
     public void addBlog(BlogPost post) {
-        this.posts.add(post);
+        if (!this.posts.contains(post)) {
+            this.posts.add(post);
+            post.setBlog(this);
+        }
     }
-    
+
     public void setBlogUser(BlogUser user) {
         this.user = user;
     }
-    
+
     @ManyToOne
-    @JoinColumn(name="BLOG_USER_ID", nullable=false)
+    @JoinColumn(name = "BLOG_USER_ID", nullable = false)
     public BlogUser getBlogUser() {
         return this.user;
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -78,14 +80,11 @@ public class Blog extends ModelBase implements Serializable {
         if (!(obj instanceof Blog)) {
             return false;
         }
-        Blog other = (Blog)obj;
+        Blog other = (Blog) obj;
         if (id != other.id) {
             return false;
         }
         return true;
     }
-
-
-
 
 }
