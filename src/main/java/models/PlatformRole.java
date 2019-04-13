@@ -1,6 +1,7 @@
 package models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -22,7 +23,7 @@ public class PlatformRole extends ModelBase implements Serializable {
     }
 
     protected String roleName;
-    protected List<PlatformUser> platformUsers;
+    protected List<PlatformUser> platformUsers = new ArrayList<>();
 
     public String getRoleName() {
         return roleName;
@@ -37,6 +38,10 @@ public class PlatformRole extends ModelBase implements Serializable {
     }
     public void setPlatformUsers(List<PlatformUser> platformUsers) {
         this.platformUsers = platformUsers;
+    }
+    
+    public void addPlatformUser(PlatformUser platformUser) {
+        this.platformUsers.add(platformUser);
     }
     
     /* (non-Javadoc)

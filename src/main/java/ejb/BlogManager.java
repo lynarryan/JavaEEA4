@@ -22,9 +22,7 @@ public class BlogManager extends ManagerBeans{
     public BlogManager() {
         
     }
-    public void outputValidBean() {
-        System.out.println("Is a valid bean");
-    }
+    
     
     @PersistenceContext(unitName = "assignment4")
     protected EntityManager em;

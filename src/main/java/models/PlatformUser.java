@@ -65,6 +65,10 @@ public class PlatformUser extends ModelBase implements Serializable{
         this.platformRoles = platformRoles;
     }
     
+    public void addPlatformRole(PlatformRole platformrole) {
+        this.platformRoles.add(platformrole);
+    }
+    
 
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()

@@ -40,6 +40,7 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
 
@@ -50,31 +51,6 @@ public class BlogTestSuite implements TestSuiteConstants {
     private static final Logger logger = LoggerFactory.getLogger(_thisClaz);
     private static final ch.qos.logback.classic.Logger eclipselinkSqlLogger =
         (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(ECLIPSELINK_LOGGING_SQL);
-    
-    private static final String SELECT_EMPLOYEE_1 =
-            "SELECT ID, FIRSTNAME, LASTNAME, SALARY, VERSION, ADDR_ID FROM EMPLOYEE WHERE (ID = ?)";
-    private static final String INSERT_EMPLOYEE_2 =
-            "INSERT INTO EMPLOYEE (FIRSTNAME, LASTNAME, SALARY, VERSION, ADDR_ID) VALUES (?, ?, ?, ?, ?)";
-    private static final String UPDATE_EMPLOYEE =
-            "UPDATE EMPLOYEE SET FIRSTNAME = ?, LASTNAME = ?, VERSION = ? WHERE ((ID = ?) AND (VERSION = ?))";
-    private static final String DELETE_EMPLOYEE_PROJECT_1=
-            "DELETE FROM EMP_PROJ WHERE (EMP_ID = ?)";
-    private static final String DELETE_EMPLOYEE=
-            "DELETE FROM EMPLOYEE WHERE ((ID = ?) AND (VERSION = ?))";
-    private static final String SELECT_MAX_SALARY=
-            "SELECT t0.ID, t0.FIRSTNAME, t0.LASTNAME, t0.SALARY, t0.VERSION, t0.ADDR_ID FROM EMPLOYEE t0 WHERE (t0.SALARY = (SELECT MAX(t1.SALARY) FROM EMPLOYEE t1))";
-
-    private static final String SELECT_EMPLOYEE_ALL=
-            "SELECT ID, FIRSTNAME, LASTNAME, SALARY, VERSION, ADDR_ID FROM EMPLOYEE";
-    private static final String UPDATE_SALARY=
-            "UPDATE EMPLOYEE SET SALARY = ?, VERSION = ? WHERE ((ID = ?) AND (VERSION = ?))";
-    private static final String SELECT_SALARY_GREATER=
-            "SELECT ID, FIRSTNAME, LASTNAME, SALARY, VERSION, ADDR_ID FROM EMPLOYEE WHERE (SALARY >= ?)";
-    private static final String SELECT_EMPLOYEE_FIRSTNAME=
-            "SELECT ID, FIRSTNAME, LASTNAME, SALARY, VERSION, ADDR_ID FROM EMPLOYEE WHERE (FIRSTNAME = ?)";
-    private static final String SELECT_EMPLOYEE_FULL_NAME=
-            "SELECT ID, FIRSTNAME, LASTNAME, SALARY, VERSION, ADDR_ID FROM EMPLOYEE WHERE ((FIRSTNAME = ?) AND (LASTNAME = ?))";
-    
     
     // test fixture(s)
     public static EntityManagerFactory emf;
@@ -103,22 +79,137 @@ public class BlogTestSuite implements TestSuiteConstants {
      * Test that there are no employees prior to the tests being run
      */
     @Test
-    public void _01_test_no_Employees_at_start() {
+    public void _01_test_no_Blogs_at_start() {
         EntityManager em = emf.createEntityManager();
-        ListAppender<ILoggingEvent> listAppender = attachListAppender(eclipselinkSqlLogger, ECLIPSELINK_LOGGING_SQL);
         Blog blog = em.find(Blog.class, Integer.valueOf(1));
-        detachListAppender(eclipselinkSqlLogger, listAppender);
         assertNull(blog);
-        List<ILoggingEvent> loggingEvents = listAppender.list;
-        assertEquals(1, loggingEvents.size());
-       
-       
         em.close();
     }
 
     // C-R-U-D lifecycle
+    @Test
+    public void _02_test_Create_Blog() {
+        EntityManager em = emf.createEntityManager();
+        
+        Blog blog = new Blog();
+        BlogUser bu = new BlogUser();
+        blog.setBlogName("My Blog");
+        bu.setFirstName("Greg");
+        bu.addBlog(blog);
+        blog.setBlogUser(bu);
+        
+        em.getTransaction().begin();
+        em.persist(bu);
+        em.persist(blog);
+        em.getTransaction().commit();
+        
+        Blog blog2 = em.find(Blog.class, Integer.valueOf(1));
+        
+        assertEquals(blog, blog2);
+        assertEquals(blog.getBlogUser(), bu);        
+    }
     
+    @Test
+    public void _03_test_Find_Blog_By_name() {
+        EntityManager em = emf.createEntityManager();
+        Blog blog = (Blog)em.createQuery(
+                "SELECT b FROM Blog b where b.blogName = :bn")
+                .setParameter("bn", "My Blog")
+                .getSingleResult();
+        
+        assertEquals(blog.getBlogName(), "My Blog");
+        assertTrue(blog.getId() ==1);
+        assertEquals(blog.getBlogUser().getFirstName(), "Greg");
+    }
     
+    @Test
+    public void _04_test_Find_Blogs_by_user() {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        
+        BlogUser user = em.find(BlogUser.class, Integer.valueOf(1));
+        Blog blog1 = new Blog();
+        blog1.setBlogName("Blog1");
+        user.addBlog(blog1);
+        blog1.setBlogUser(user);
+        
+        Blog blog2 = new Blog();
+        blog2.setBlogName("Blog2");
+        user.addBlog(blog2);
+        blog2.setBlogUser(user);
+
+        Blog blog3 = new Blog();
+        blog3.setBlogName("Blog3");
+        user.addBlog(blog3);
+        blog3.setBlogUser(user);
+
+        Blog blog4 = new Blog();
+        blog4.setBlogName("Blog4");
+        user.addBlog(blog4);
+        blog4.setBlogUser(user);
+        
+        em.persist(blog1);
+        em.persist(blog2);
+        em.persist(blog3);
+        em.persist(blog4);
+        em.getTransaction().commit();
+        
+        List<Blog> blogs = em.createQuery(
+                "SELECT b FROM Blog b JOIN BlogUser u where u.firstName = :fn")
+                .setParameter("fn", "Greg")
+                .getResultList();
+              
+        assertTrue(blogs.size() ==5);
+        assertEquals(blogs.get(0).getBlogName(), "My Blog");
+        assertEquals(blogs.get(1).getBlogName(), "Blog3");
+        assertEquals(blogs.get(2).getBlogName(), "Blog1");
+        assertEquals(blogs.get(3).getBlogName(), "Blog4");
+        assertEquals(blogs.get(4).getBlogName(), "Blog2");
+         
+                
+    }
+    
+    @Test
+    public void _05_test_update_Blog_Title() {
+        EntityManager em = emf.createEntityManager();
+        Blog blog = em.find(Blog.class, Integer.valueOf(1));
+        em.getTransaction().begin();
+        blog.setBlogName("New Name");
+        em.getTransaction().commit();
+        
+        Blog blogNew = (Blog)em.createQuery(
+                "SELECT b FROM Blog b where b.blogName = :bn")
+                .setParameter("bn", "New Name")
+                .getSingleResult();
+        
+        List<Blog> blogOld= em.createQuery(
+                "SELECT b FROM Blog b where b.blogName = :bn")
+                .setParameter("bn", "My Blog")
+                .getResultList();
+        
+        assertNotNull(blogNew);
+        assertTrue(blogOld.size() ==0);
+        
+    }
+    
+    @Test
+    public void _06_test_delete_Blog() {
+        EntityManager em = emf.createEntityManager();
+        
+        Blog blog = em.find(Blog.class, Integer.valueOf(1));
+        BlogUser blogUser = em.find(BlogUser.class, Integer.valueOf(1));
+        em.getTransaction().begin();
+        em.remove(blog);
+        blogUser.getBlogs().remove(0);
+        em.getTransaction().commit();
+        
+        Blog blogRemoved = em.find(Blog.class, Integer.valueOf(1));
+        BlogUser bu = em.find(BlogUser.class, Integer.valueOf(1));
+        
+        assertNull(blogRemoved);
+        assertNotNull(bu);
+        
+    }
    
    
     
