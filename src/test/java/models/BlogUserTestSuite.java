@@ -170,12 +170,12 @@ public class BlogUserTestSuite implements TestSuiteConstants {
         assertTrue(blogUsers.size() ==4);
         assertEquals(blogUsers.get(0).getFirstName(), "Greg");
         assertEquals(blogUsers.get(1).getFirstName(), "BlogUser2");
-        assertEquals(blogUsers.get(2).getFirstName(), "BlogUser3");
-        assertEquals(blogUsers.get(3).getFirstName(), "BlogUser1");
+        assertEquals(blogUsers.get(2).getFirstName(), "BlogUser1");
+        assertEquals(blogUsers.get(3).getFirstName(), "BlogUser3");
         assertEquals(blogUsers.get(0).getPlatformUser().getUserName(), "test");
         assertEquals(blogUsers.get(1).getPlatformUser().getUserName(), "PlatformUser2");
-        assertEquals(blogUsers.get(2).getPlatformUser().getUserName(), "PlatformUser3");
-        assertEquals(blogUsers.get(3).getPlatformUser().getUserName(), "PlatformUser1");
+        assertEquals(blogUsers.get(2).getPlatformUser().getUserName(), "PlatformUser1");
+        assertEquals(blogUsers.get(3).getPlatformUser().getUserName(), "PlatformUser3");
          
         }
     
