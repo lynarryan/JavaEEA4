@@ -23,6 +23,8 @@ public class PostManager extends ManagerBeans {
     }
 
     public void add(BlogPost postToAdd) {
+        System.out.println("Here");
+        System.out.println(postToAdd.toString());
         em.persist(postToAdd);
     }
 
