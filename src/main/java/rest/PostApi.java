@@ -20,8 +20,8 @@ public class PostApi {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/find")
     public Response findByID(@QueryParam("id") int id) {
-        // TODO Find by ID + Behaviour
-        return Response.ok().entity("" + id).build();
+        
+        return Response.ok().entity(null).build();
     }
 
     
