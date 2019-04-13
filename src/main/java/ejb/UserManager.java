@@ -41,7 +41,13 @@ public class UserManager extends ManagerBeans {
     }
 
     public void update(BlogUser toUpdate) {
-        em.merge(toUpdate);
+        BlogUser stored = em.find(BlogUser.class, toUpdate.getId());
+        stored.setFirstName(toUpdate.getFirstName());
+        stored.setLastName(toUpdate.getLastName());
+        stored.setEmail(toUpdate.getEmail());
+        stored.getAudit().setUpdatedDate(toUpdate.getAudit().getUpdatedDate());
+        em.merge(stored);
+        
     }
 
     public void delete(int id) {

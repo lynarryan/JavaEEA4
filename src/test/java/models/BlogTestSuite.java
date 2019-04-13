@@ -93,7 +93,7 @@ public class BlogTestSuite implements TestSuiteConstants {
         bu.setFirstName("Greg");
         bu.addBlog(blog);
         blog.setBlogUser(bu);
-
+        
         em.getTransaction().begin();
         em.persist(bu);
         em.persist(blog);

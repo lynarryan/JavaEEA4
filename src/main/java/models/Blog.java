@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -52,15 +53,15 @@ public class Blog extends ModelBase implements Serializable {
     }
 
     
-
+    @JsonbTransient
     @ManyToOne
     @JoinColumn(name = "BLOG_USER_ID", nullable = false)
     public BlogUser getBlogUser() {
         return this.user;
     }
     public void setBlogUser(BlogUser user) {
-        System.out.println("Here");
         this.user = user;
+        user.addBlog(this);
     }
 
     @Override
