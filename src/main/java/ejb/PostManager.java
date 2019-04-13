@@ -29,7 +29,10 @@ public class PostManager extends ManagerBeans {
     }
 
     public void update(BlogPost toUpdate) {
-        em.merge(toUpdate);
+        BlogPost post = em.find(BlogPost.class, toUpdate.getId());
+        post.setPostText(toUpdate.getPostText());
+        post.getAudit().setUpdatedDate(post.getAudit().getUpdatedDate());
+        em.merge(post);
     }
 
     public void remove(int id) {

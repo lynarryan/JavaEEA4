@@ -6,7 +6,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 
+import models.BlogPost;
 import models.BlogUser;
 
 @Stateless
@@ -55,14 +58,9 @@ public class UserManager extends ManagerBeans {
     }
 
     public List<BlogUser> list() {
-        List<BlogUser> result = new ArrayList<BlogUser>();
-        try {
-            String listUsers = "SELECT bu FROM BlogUser bu";
-            result = em.createQuery(listUsers, BlogUser.class).getResultList();
-        }catch(Exception e) {
-            System.out.println(e.getMessage());
-        }
-        
-        return result;
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<BlogUser> cq = cb.createQuery(BlogUser.class);
+        cq.select(cq.from(BlogUser.class));
+        return em.createQuery(cq).getResultList();
     }
 }
