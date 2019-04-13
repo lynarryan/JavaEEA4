@@ -51,14 +51,16 @@ public class Blog extends ModelBase implements Serializable {
         }
     }
 
-    public void setBlogUser(BlogUser user) {
-        this.user = user;
-    }
+    
 
     @ManyToOne
     @JoinColumn(name = "BLOG_USER_ID", nullable = false)
     public BlogUser getBlogUser() {
         return this.user;
+    }
+    public void setBlogUser(BlogUser user) {
+        System.out.println("Here");
+        this.user = user;
     }
 
     @Override

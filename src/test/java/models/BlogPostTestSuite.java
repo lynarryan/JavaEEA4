@@ -96,12 +96,15 @@ public class BlogPostTestSuite implements TestSuiteConstants {
         user.setLastName("user");
         BlogPost post = new BlogPost();
         Blog blog = new Blog();
+        Blog blog2 = new Blog();
         user.addBlog(blog);
+        user.addBlog(blog2);
         blog.addBlog(post);
 
         em.getTransaction().begin();
         em.persist(user);
         em.persist(blog);
+        em.persist(blog2);
         em.persist(post);
         em.getTransaction().commit();
 
@@ -194,19 +197,49 @@ public class BlogPostTestSuite implements TestSuiteConstants {
         Blog blog = new Blog();
         user.addBlog(blog);
         blog.addBlog(post);
-        
+
         em.getTransaction().begin();
         em.persist(user);
         em.persist(blog);
         em.persist(post);
         em.getTransaction().commit();
         em.refresh(post);
-        assertNotNull(em.find(BlogPost.class,post.getId()));
+        assertNotNull(em.find(BlogPost.class, post.getId()));
         em.getTransaction().begin();
         em.remove(post);
         em.getTransaction().commit();
-        
+
         assertNull(em.find(BlogPost.class, post.getId()));
+        em.close();
+    }
+
+    @Test
+    public void _07_test_list_BlogPosts_by_a_user() {
+        EntityManager em = emf.createEntityManager();
+        BlogUser user = new BlogUser();
+        user.setFirstName("test");
+        user.setLastName("user");
+        BlogPost post = new BlogPost();
+        BlogPost post1 = new BlogPost();
+        BlogPost post2 = new BlogPost();
+        BlogPost post3 = new BlogPost();
+        Blog blog = new Blog();
+        user.addBlog(blog);
+        blog.addBlog(post);
+        blog.addBlog(post1);
+        blog.addBlog(post2);
+        blog.addBlog(post3);
+
+        em.getTransaction().begin();
+        em.persist(user);
+        em.persist(blog);
+        em.persist(post);
+        em.getTransaction().commit();
+        
+        
+        em.getTransaction().begin();
+        em.remove(user);
+        em.getTransaction().commit();
         em.close();
     }
 

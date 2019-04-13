@@ -119,44 +119,47 @@ public class BlogTestSuite implements TestSuiteConstants {
     @Test
     public void _04_test_Find_Blogs_by_user() {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-
-        BlogUser user = em.find(BlogUser.class, Integer.valueOf(1));
+        BlogUser user = new BlogUser();
         Blog blog1 = new Blog();
-        blog1.setBlogName("Blog1");
-        user.addBlog(blog1);
-        blog1.setBlogUser(user);
-
         Blog blog2 = new Blog();
-        blog2.setBlogName("Blog2");
-        user.addBlog(blog2);
-        blog2.setBlogUser(user);
-
         Blog blog3 = new Blog();
-        blog3.setBlogName("Blog3");
-        user.addBlog(blog3);
-        blog3.setBlogUser(user);
+        user.setFirstName("test");
+        user.setLastName("user");
+        
+        blog1.setBlogName("blog1");
+        blog2.setBlogName("blog2");
+        blog3.setBlogName("blog3");
+        
 
-        Blog blog4 = new Blog();
-        blog4.setBlogName("Blog4");
-        user.addBlog(blog4);
-        blog4.setBlogUser(user);
-
-        em.persist(blog1);
-        em.persist(blog2);
-        em.persist(blog3);
-        em.persist(blog4);
+        em.getTransaction().begin();
+        em.persist(user);
         em.getTransaction().commit();
 
-        List<Blog> blogs = em.createQuery("SELECT b FROM Blog b JOIN BlogUser u where u.firstName = :fn")
-                .setParameter("fn", "Greg").getResultList();
+        em.refresh(user);
+        user.addBlog(blog1);
+        user.addBlog(blog2);
+        user.addBlog(blog3);
+        em.getTransaction().begin();
+        em.persist(blog1);
+        em.persist(blog3);
+        em.persist(blog2);
+        em.getTransaction().commit();
+        em.refresh(user);
 
-        assertTrue(blogs.size() == 5);
-        assertEquals(blogs.get(0).getBlogName(), "My Blog");
-        assertEquals(blogs.get(1).getBlogName(), "Blog3");
-        assertEquals(blogs.get(2).getBlogName(), "Blog1");
-        assertEquals(blogs.get(3).getBlogName(), "Blog4");
-        assertEquals(blogs.get(4).getBlogName(), "Blog2");
+        String findBlogsByUserName = "SELECT b FROM Blog b WHERE b.blogUser IN (SELECT bu from BlogUser bu where bu.firstName = :fn AND bu.lastName = :ln)";
+        List<Blog> result = em.createQuery(findBlogsByUserName, Blog.class).setParameter("fn", user.firstName)
+                .setParameter("ln", user.lastName).getResultList();
+
+        assertTrue(result.contains(blog1));
+        assertTrue(result.contains(blog2));
+        assertTrue(result.contains(blog3));
+        
+        em.getTransaction().begin();
+        em.remove(blog3);
+        em.remove(blog2);
+        em.remove(blog1);
+        em.remove(user);
+        em.getTransaction().commit();
 
     }
 

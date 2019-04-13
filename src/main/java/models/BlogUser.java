@@ -74,8 +74,8 @@ public class BlogUser extends ModelBase implements Serializable {
     }
 
     public void addBlog(Blog blog) {
+        blog.setBlogUser(this);
         if (!this.blogs.contains(blog)) {
-            blog.setBlogUser(this);
             this.blogs.add(blog);
         }
     }
