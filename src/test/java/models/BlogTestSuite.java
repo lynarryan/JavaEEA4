@@ -40,24 +40,22 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BlogTestSuite implements TestSuiteConstants {
 
-    private static final Class<?> _thisClaz = MethodHandles.lookup().lookupClass();
-    private static final Logger logger = LoggerFactory.getLogger(_thisClaz);
-    private static final ch.qos.logback.classic.Logger eclipselinkSqlLogger =
-        (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(ECLIPSELINK_LOGGING_SQL);
-    
     // test fixture(s)
     public static EntityManagerFactory emf;
     public static Server server;
+    private static final Class<?> _thisClaz = MethodHandles.lookup().lookupClass();
+    private static final Logger logger = LoggerFactory.getLogger(_thisClaz);
+    private static final ch.qos.logback.classic.Logger eclipselinkSqlLogger = (ch.qos.logback.classic.Logger) LoggerFactory
+            .getLogger(ECLIPSELINK_LOGGING_SQL);
 
     /**
-     *  Set up the test class
+     * Set up the test class
      */
     @BeforeClass
     public static void oneTimeSetUp() {
@@ -68,13 +66,11 @@ public class BlogTestSuite implements TestSuiteConstants {
             // (connection in .dbeaver-data-sources.xml so should be immediately useable
             server = Server.createTcpServer().start();
             emf = buildEntityManagerFactory(_thisClaz.getSimpleName());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.error("something went wrong building EntityManagerFactory", e);
         }
     }
 
-    
     /**
      * Test that there are no employees prior to the tests being run
      */
@@ -90,7 +86,7 @@ public class BlogTestSuite implements TestSuiteConstants {
     @Test
     public void _02_test_Create_Blog() {
         EntityManager em = emf.createEntityManager();
-        
+
         Blog blog = new Blog();
         BlogUser bu = new BlogUser();
         blog.setBlogName("My Blog");
@@ -102,73 +98,71 @@ public class BlogTestSuite implements TestSuiteConstants {
         em.persist(bu);
         em.persist(blog);
         em.getTransaction().commit();
-        
+
         Blog blog2 = em.find(Blog.class, Integer.valueOf(1));
-        
+
         assertEquals(blog, blog2);
-        assertEquals(blog.getBlogUser(), bu);        
+        assertEquals(blog.getBlogUser(), bu);
     }
-    
+
     @Test
     public void _03_test_Find_Blog_By_name() {
         EntityManager em = emf.createEntityManager();
-        Blog blog = (Blog)em.createQuery(
-                "SELECT b FROM Blog b where b.blogName = :bn")
-                .setParameter("bn", "My Blog")
+        Blog blog = (Blog) em.createQuery("SELECT b FROM Blog b where b.blogName = :bn").setParameter("bn", "My Blog")
                 .getSingleResult();
-        
+
         assertEquals(blog.getBlogName(), "My Blog");
-        assertTrue(blog.getId() ==1);
+        assertTrue(blog.getId() == 1);
         assertEquals(blog.getBlogUser().getFirstName(), "Greg");
     }
-    
+
     @Test
     public void _04_test_Find_Blogs_by_user() {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        
-        BlogUser user = em.find(BlogUser.class, Integer.valueOf(1));
+        BlogUser user = new BlogUser();
         Blog blog1 = new Blog();
-        blog1.setBlogName("Blog1");
-        user.addBlog(blog1);
-        blog1.setBlogUser(user);
-        
         Blog blog2 = new Blog();
-        blog2.setBlogName("Blog2");
-        user.addBlog(blog2);
-        blog2.setBlogUser(user);
-
         Blog blog3 = new Blog();
-        blog3.setBlogName("Blog3");
-        user.addBlog(blog3);
-        blog3.setBlogUser(user);
+        user.setFirstName("test");
+        user.setLastName("user");
+        
+        blog1.setBlogName("blog1");
+        blog2.setBlogName("blog2");
+        blog3.setBlogName("blog3");
+        
 
-        Blog blog4 = new Blog();
-        blog4.setBlogName("Blog4");
-        user.addBlog(blog4);
-        blog4.setBlogUser(user);
-        
-        em.persist(blog1);
-        em.persist(blog2);
-        em.persist(blog3);
-        em.persist(blog4);
+        em.getTransaction().begin();
+        em.persist(user);
         em.getTransaction().commit();
+
+        em.refresh(user);
+        user.addBlog(blog1);
+        user.addBlog(blog2);
+        user.addBlog(blog3);
+        em.getTransaction().begin();
+        em.persist(blog1);
+        em.persist(blog3);
+        em.persist(blog2);
+        em.getTransaction().commit();
+        em.refresh(user);
+
+        String findBlogsByUserName = "SELECT b FROM Blog b WHERE b.blogUser IN (SELECT bu from BlogUser bu where bu.firstName = :fn AND bu.lastName = :ln)";
+        List<Blog> result = em.createQuery(findBlogsByUserName, Blog.class).setParameter("fn", user.firstName)
+                .setParameter("ln", user.lastName).getResultList();
+
+        assertTrue(result.contains(blog1));
+        assertTrue(result.contains(blog2));
+        assertTrue(result.contains(blog3));
         
-        List<Blog> blogs = em.createQuery(
-                "SELECT b FROM Blog b JOIN BlogUser u where u.firstName = :fn")
-                .setParameter("fn", "Greg")
-                .getResultList();
-              
-        assertTrue(blogs.size() ==5);
-        assertEquals(blogs.get(0).getBlogName(), "My Blog");
-        assertEquals(blogs.get(1).getBlogName(), "Blog3");
-        assertEquals(blogs.get(2).getBlogName(), "Blog1");
-        assertEquals(blogs.get(3).getBlogName(), "Blog4");
-        assertEquals(blogs.get(4).getBlogName(), "Blog2");
-         
-                
+        em.getTransaction().begin();
+        em.remove(blog3);
+        em.remove(blog2);
+        em.remove(blog1);
+        em.remove(user);
+        em.getTransaction().commit();
+
     }
-    
+
     @Test
     public void _05_test_update_Blog_Title() {
         EntityManager em = emf.createEntityManager();
@@ -176,43 +170,36 @@ public class BlogTestSuite implements TestSuiteConstants {
         em.getTransaction().begin();
         blog.setBlogName("New Name");
         em.getTransaction().commit();
-        
-        Blog blogNew = (Blog)em.createQuery(
-                "SELECT b FROM Blog b where b.blogName = :bn")
-                .setParameter("bn", "New Name")
-                .getSingleResult();
-        
-        List<Blog> blogOld= em.createQuery(
-                "SELECT b FROM Blog b where b.blogName = :bn")
-                .setParameter("bn", "My Blog")
+
+        Blog blogNew = (Blog) em.createQuery("SELECT b FROM Blog b where b.blogName = :bn")
+                .setParameter("bn", "New Name").getSingleResult();
+
+        List<Blog> blogOld = em.createQuery("SELECT b FROM Blog b where b.blogName = :bn").setParameter("bn", "My Blog")
                 .getResultList();
-        
+
         assertNotNull(blogNew);
-        assertTrue(blogOld.size() ==0);
-        
+        assertTrue(blogOld.size() == 0);
+
     }
-    
+
     @Test
     public void _06_test_delete_Blog() {
         EntityManager em = emf.createEntityManager();
-        
+
         Blog blog = em.find(Blog.class, Integer.valueOf(1));
         BlogUser blogUser = em.find(BlogUser.class, Integer.valueOf(1));
         em.getTransaction().begin();
         em.remove(blog);
         blogUser.getBlogs().remove(0);
         em.getTransaction().commit();
-        
+
         Blog blogRemoved = em.find(Blog.class, Integer.valueOf(1));
         BlogUser bu = em.find(BlogUser.class, Integer.valueOf(1));
-        
+
         assertNull(blogRemoved);
         assertNotNull(bu);
-        
+
     }
-   
-   
-    
 
     /**
      * Clean up after all tests are run

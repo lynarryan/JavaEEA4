@@ -6,7 +6,6 @@
 <persistence-unit name="assignment4-testing"
         transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        
         <class>models.BlogPost</class>
         <class>models.Audit</class>
         <class>models.Blog</class>
