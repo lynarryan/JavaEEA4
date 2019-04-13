@@ -1,6 +1,7 @@
 package models;
 
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +19,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="PLATFORM_USER")
 @EntityListeners({AuditListener.class})
-public class PlatformUser extends ModelBase implements Serializable{
+public class PlatformUser extends ModelBase implements Serializable, Principal{
     /** explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
     protected String userName;
@@ -33,7 +34,10 @@ public class PlatformUser extends ModelBase implements Serializable{
     }
     
     
-   
+    @Override
+    public String getName() {
+        return userName;
+    }
     public String getUserName() {
         return userName;
     }

@@ -1,8 +1,11 @@
 package rest;
 
+import java.security.Principal;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.security.enterprise.SecurityContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -15,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import ejb.UserManager;
 import models.BlogUser;
+import models.PlatformUser;
 
 @Path("/user")
 public class UserApi {
@@ -49,9 +53,18 @@ public class UserApi {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createUser(BlogUser body) {
-        userBean.create(body);
-        return Response.ok().build();
+    @RolesAllowed("USER")
+    public Response createUser(BlogUser body, SecurityContext sc) {
+        Principal p = sc.getCallerPrincipal();
+        if (p == null) {
+            return Response.serverError().entity("{\"message\":\"missing principal\"}").build();
+        }else {
+            PlatformUser pUser = (PlatformUser) p;
+            if(pUser.get)
+            userBean.create(body);
+            return Response.ok().build();
+            
+        }
     }
 
     @PUT
