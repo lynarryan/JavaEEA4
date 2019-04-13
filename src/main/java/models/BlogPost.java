@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -11,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 
 /**
  * The Post class demonstrates:
@@ -22,10 +22,10 @@ import javax.persistence.Table;
  * </ul>
  */
 @Entity
-@EntityListeners({AuditListener.class})
-@Table(name="BLOG_POST")
+@EntityListeners({ AuditListener.class })
+@Table(name = "BLOG_POST")
 public class BlogPost extends ModelBase implements Serializable {
-    
+
     /** explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
 
@@ -33,7 +33,7 @@ public class BlogPost extends ModelBase implements Serializable {
     protected String postText;
     protected Blog blog;
     protected List<Comment> comments = new ArrayList<>();
-    
+
     public String getPostTitle() {
         return postTitle;
     }
@@ -53,8 +53,8 @@ public class BlogPost extends ModelBase implements Serializable {
     public BlogPost() {
         super();
     }
-    
-    @OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE)
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     public List<Comment> getComment() {
         return comments;
     }
@@ -62,26 +62,31 @@ public class BlogPost extends ModelBase implements Serializable {
     public void setComment(List<Comment> comments) {
         this.comments = comments;
     }
-    
+
     public void addComment(Comment comment) {
-        this.comments.add(comment);
+        comment.setPost(this);
+        if (this.comments.contains(comment)) {
+            this.comments.add(comment);
+        }
     }
-    
+
     public void setBlogUser(Blog blog) {
         this.blog = blog;
     }
-    
+
+    @JsonbTransient    
     @ManyToOne
-    @JoinColumn(name="BLOG_ID", nullable=false)
+    @JoinColumn(name = "BLOG_ID", nullable = false)
     public Blog getBlog() {
         return this.blog;
     }
+
     public void setBlog(Blog b) {
         this.blog = b;
         b.addBlog(this);
+
     }
-    
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -101,7 +106,7 @@ public class BlogPost extends ModelBase implements Serializable {
         if (!(obj instanceof BlogPost)) {
             return false;
         }
-        BlogPost other = (BlogPost)obj;
+        BlogPost other = (BlogPost) obj;
         if (id != other.id) {
             return false;
         }

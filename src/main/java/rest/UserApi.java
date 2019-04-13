@@ -28,14 +28,23 @@ public class UserApi {
 
     @GET
     @Path("/find/id")
+    @RolesAllowed("USER")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findByID(@QueryParam("id") int id) {
-        BlogUser result = userBean.find(id);
-        if (result != null) {
-            return Response.ok(result).build();
+    public Response findByID(@QueryParam("id") int id, SecurityContext sc) {
+
+        Principal p = sc.getCallerPrincipal();
+        if (p == null) {
+            return Response.serverError().entity("{\"message\":\"missing principal\"}").build();
         } else {
-            return Response.status(404).entity("Unable to find a user with provided id").build();
+            PlatformUser pUser = (PlatformUser) p;
+            BlogUser result = userBean.find(id);
+            if (pUser.getId() == result.getId()) {
+                if (result != null) {
+                    return Response.ok(result).build();
+                }
+            }
         }
+        return Response.status(403).entity("UNAUTHORIZED ACCESS").build();
     }
 
     @GET
@@ -53,18 +62,11 @@ public class UserApi {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @RolesAllowed("USER")
-    public Response createUser(BlogUser body, SecurityContext sc) {
-        Principal p = sc.getCallerPrincipal();
-        if (p == null) {
-            return Response.serverError().entity("{\"message\":\"missing principal\"}").build();
-        }else {
-            PlatformUser pUser = (PlatformUser) p;
-            if(pUser.get)
-            userBean.create(body);
-            return Response.ok().build();
-            
-        }
+    public Response createUser(BlogUser body) {
+
+        userBean.create(body);
+        return Response.ok().build();
+
     }
 
     @PUT

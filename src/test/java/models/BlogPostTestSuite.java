@@ -34,7 +34,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
 
-
 import org.h2.tools.Server;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -45,11 +44,8 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
-
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BlogPostTestSuite implements TestSuiteConstants {
@@ -60,14 +56,12 @@ public class BlogPostTestSuite implements TestSuiteConstants {
     private static final ch.qos.logback.classic.Logger eclipselinkSqlLogger = (ch.qos.logback.classic.Logger) LoggerFactory
             .getLogger(ECLIPSELINK_LOGGING_SQL);
 
-
     // test fixture(s)
     public static EntityManagerFactory emf;
     public static Server server;
 
-
     /**
-     *  Set up the test class
+     * Set up the test class
      */
 
     @BeforeClass
@@ -86,7 +80,6 @@ public class BlogPostTestSuite implements TestSuiteConstants {
         }
     }
 
-
     /**
      * Test that there are no blogPosts prior to the tests being run
      */
@@ -100,8 +93,7 @@ public class BlogPostTestSuite implements TestSuiteConstants {
     }
 
     // C-R-U-D lifecycle
-    
-        
+
     @Test
     public void _02_test_Create_BlogPost() {
 
@@ -137,8 +129,6 @@ public class BlogPostTestSuite implements TestSuiteConstants {
         BlogPost post = new BlogPost();
         Blog blog = new Blog();
         Blog blog2 = new Blog();
-        user.addBlog(blog);
-        user.addBlog(blog2);
         blog.addBlog(post);
 
         em.getTransaction().begin();
@@ -147,6 +137,9 @@ public class BlogPostTestSuite implements TestSuiteConstants {
         em.persist(blog2);
         em.persist(post);
         em.getTransaction().commit();
+
+        em.refresh(blog2);
+        em.refresh(blog);
 
         String findPostByUserName = "SELECT p FROM BlogPost p where p.blog IN (SELECT b FROM Blog b WHERE b.blogUser IN (SELECT bu from BlogUser bu where bu.firstName = :fn AND bu.lastName = :ln))";
         BlogPost result = em.createQuery(findPostByUserName, BlogPost.class).setParameter("fn", user.firstName)
@@ -275,8 +268,7 @@ public class BlogPostTestSuite implements TestSuiteConstants {
         em.persist(blog);
         em.persist(post);
         em.getTransaction().commit();
-        
-        
+
         em.getTransaction().begin();
         em.remove(user);
         em.getTransaction().commit();
@@ -298,6 +290,4 @@ public class BlogPostTestSuite implements TestSuiteConstants {
         }
     }
 
-
 }
-
