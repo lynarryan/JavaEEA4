@@ -1,5 +1,7 @@
 package rest;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -16,24 +18,32 @@ import models.BlogUser;
 
 @Path("/user")
 public class UserApi {
-    
+
     @EJB
     UserManager userBean;
-    
+
     @GET
     @Path("/find/id")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findByID(@QueryParam("id") int id) {
-        // TODO Find by ID + Behaviour
-        return Response.ok(userBean.find(id)).build();
+        BlogUser result = userBean.find(id);
+        if (result != null) {
+            return Response.ok(result).build();
+        } else {
+            return Response.status(404).entity("Unable to find a user with provided id").build();
+        }
     }
 
     @GET
     @Path("/find/name")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findByUserName(@QueryParam("firstName") String firstName , @QueryParam("lastName") String lastName) {
-        return Response.ok().entity(userBean.find(firstName, lastName)).build();
-
+    public Response findByUserName(@QueryParam("firstName") String firstName, @QueryParam("lastName") String lastName) {
+        BlogUser result = userBean.find(firstName, lastName);
+        if (result != null) {
+            return Response.ok(result).build();
+        } else {
+            return Response.status(404).entity("Unable to find a user with provided first and last names").build();
+        }
     }
 
     @POST
@@ -62,7 +72,12 @@ public class UserApi {
     @GET
     @Path("/list")
     public Response listUsers() {
-        return Response.ok().entity(userBean.list()).build();
+        List<BlogUser> result = userBean.list();
+        if (result.isEmpty()) {
+            return Response.ok().entity(result).build();
+        } else {
+            return Response.status(404).entity("Unable to construct a list of users").build();
+        }
     }
 
 }

@@ -1,5 +1,7 @@
 package rest;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -21,13 +23,17 @@ public class BlogApi {
 
     @EJB
     BlogManager blogBean;
-    
+
     @GET
     @Path("/find")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findByID(@QueryParam("id") int id) {
-        // TODO Find by ID + Behaviour
-        return Response.ok().entity(blogBean.getBlogById(id)).build();
+        Blog result = blogBean.getBlogById(id);
+        if (result != null) {
+            return Response.ok().entity(blogBean.getBlogById(id)).build();
+        } else {
+            return Response.status(404).entity("Unable to find a blog with the provided id").build();
+        }
     }
 
     @POST
@@ -52,11 +58,17 @@ public class BlogApi {
         blogBean.deleteBlog(id);
         return Response.ok().build();
     }
-    
+
     @GET
     @Path("/list")
     public Response listBlogs() {
-        return Response.ok().entity(blogBean.getBlogList()).build();
+        List<Blog> blogs = blogBean.getBlogList();
+        if (!blogs.isEmpty()) {
+            return Response.ok().entity(blogBean.getBlogList()).build();
+        } else {
+            return Response.status(404).entity("Unable to Construct a list of blogs").build();
+        }
+
     }
 
 }
