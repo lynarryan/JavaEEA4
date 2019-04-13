@@ -1,6 +1,7 @@
 package models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -28,11 +29,19 @@ public class BlogPost extends ModelBase implements Serializable {
     /** explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
 
-    
+    protected String postTitle;
     protected String postText;
     protected Blog blog;
-    protected List<Comment> comment;
+    protected List<Comment> comments = new ArrayList<>();
     
+    public String getPostTitle() {
+        return postTitle;
+    }
+
+    public void setPostTitle(String postTitle) {
+        this.postTitle = postTitle;
+    }
+
     public String getPostText() {
         return postText;
     }
@@ -47,11 +56,15 @@ public class BlogPost extends ModelBase implements Serializable {
     
     @OneToMany(mappedBy = "post", cascade=CascadeType.REMOVE)
     public List<Comment> getComment() {
-        return comment;
+        return comments;
     }
 
-    public void setComment(List<Comment> comment) {
-        this.comment = comment;
+    public void setComment(List<Comment> comments) {
+        this.comments = comments;
+    }
+    
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
     
     public void setBlogUser(Blog blog) {

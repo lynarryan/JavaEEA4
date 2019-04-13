@@ -1,10 +1,25 @@
+
+/**********************************************************************egg*m******a******n********************
+ * File: EmployeeTestSuite.java
+ * Course materials (19W) CST 8277
+ * @author (original) Mike Norman
+ * @author (editor/student) Lauren Preston 040-839-284
+ * @author (editor/student) Gregory Leverton 040-885-599
+ * 
+ */
+
 package models;
 
+import static models.TestSuiteConstants.attachListAppender;
 import static models.TestSuiteConstants.buildEntityManagerFactory;
+import static models.TestSuiteConstants.detachListAppender;
+import static org.hamcrest.core.StringStartsWith.startsWith;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.invoke.MethodHandles;
@@ -12,6 +27,13 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.Root;
+
 
 import org.h2.tools.Server;
 import org.junit.AfterClass;
@@ -23,17 +45,30 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
+
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BlogPostTestSuite implements TestSuiteConstants {
 
     private static final Class<?> _thisClaz = MethodHandles.lookup().lookupClass();
     private static final Logger logger = LoggerFactory.getLogger(_thisClaz);
+
     private static final ch.qos.logback.classic.Logger eclipselinkSqlLogger = (ch.qos.logback.classic.Logger) LoggerFactory
             .getLogger(ECLIPSELINK_LOGGING_SQL);
+
 
     // test fixture(s)
     public static EntityManagerFactory emf;
     public static Server server;
+
+
+    /**
+     *  Set up the test class
+     */
 
     @BeforeClass
     public static void oneTimeSetUp() {
@@ -44,10 +79,13 @@ public class BlogPostTestSuite implements TestSuiteConstants {
             // (connection in .dbeaver-data-sources.xml so should be immediately useable
             server = Server.createTcpServer().start();
             emf = buildEntityManagerFactory(_thisClaz.getSimpleName());
+
         } catch (Exception e) {
+
             logger.error("something went wrong building EntityManagerFactory", e);
         }
     }
+
 
     /**
      * Test that there are no blogPosts prior to the tests being run
@@ -62,6 +100,8 @@ public class BlogPostTestSuite implements TestSuiteConstants {
     }
 
     // C-R-U-D lifecycle
+    
+        
     @Test
     public void _02_test_Create_BlogPost() {
 
@@ -241,6 +281,7 @@ public class BlogPostTestSuite implements TestSuiteConstants {
         em.remove(user);
         em.getTransaction().commit();
         em.close();
+
     }
 
     /**
@@ -257,4 +298,6 @@ public class BlogPostTestSuite implements TestSuiteConstants {
         }
     }
 
+
 }
+

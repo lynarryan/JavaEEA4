@@ -90,4 +90,14 @@ public class Blog extends ModelBase implements Serializable {
         return true;
     }
 
+
+    public String getBlogName() {
+        return blogName;
+    }
+
+
+    public void setBlogName(String blogName) {
+        this.blogName = blogName;
+    }
+
 }

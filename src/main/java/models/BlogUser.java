@@ -21,7 +21,9 @@ public class BlogUser extends ModelBase implements Serializable {
     protected String email;
     protected PlatformUser platformUser;
     private List<Blog> blogs = new ArrayList<>();
-    private List<Comment> comments;
+
+    private List<Comment> comments = new ArrayList<>();
+    
 
     /**
      * Default constructor
@@ -89,6 +91,7 @@ public class BlogUser extends ModelBase implements Serializable {
         this.comments = comments;
     }
 
+
     public void addComment(Comment comment) {
         if (!this.comments.contains(comment)) {
             this.comments.add(comment);
@@ -99,6 +102,7 @@ public class BlogUser extends ModelBase implements Serializable {
     /*
      * (non-Javadoc)
      * 
+
      * @see java.lang.Object#hashCode()
      */
     @Override
