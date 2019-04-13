@@ -1,6 +1,9 @@
 package rest;
 
+import java.util.List;
+
 import javax.ejb.EJB;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,53 +14,70 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import ejb.UserManager;
+import models.BlogUser;
 
 @Path("/user")
 public class UserApi {
-    
+
     @EJB
     UserManager userBean;
-    
+
     @GET
     @Path("/find/id")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findByID(@QueryParam("id") int id) {
-        // TODO Find by ID + Behaviour
-        return Response.ok().build();
+        BlogUser result = userBean.find(id);
+        if (result != null) {
+            return Response.ok(result).build();
+        } else {
+            return Response.status(404).entity("Unable to find a user with provided id").build();
+        }
     }
 
     @GET
     @Path("/find/name")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findByUserName(@QueryParam("username") String username) {
-        return Response.ok().entity(username).build();
-
+    public Response findByUserName(@QueryParam("firstName") String firstName, @QueryParam("lastName") String lastName) {
+        BlogUser result = userBean.find(firstName, lastName);
+        if (result != null) {
+            return Response.ok(result).build();
+        } else {
+            return Response.status(404).entity("Unable to find a user with provided first and last names").build();
+        }
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createUser(String body) {
-        // Test
-        System.out.println("body: " + body);
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createUser(BlogUser body) {
+        userBean.create(body);
         return Response.ok().build();
     }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateUser(String body) {
-        return Response.ok().entity("ToUpdateUser: " + body).build();
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateUser(BlogUser toUpdate) {
+        userBean.update(toUpdate);
+        return Response.ok().build();
     }
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteUser(@QueryParam("id") int id) {
-        return Response.ok().entity("Deleteing user " + id).build();
+        userBean.delete(id);
+        return Response.ok().build();
     }
 
     @GET
     @Path("/list")
     public Response listUsers() {
-        return Response.ok().entity("Returning a list of users").build();
+        List<BlogUser> result = userBean.list();
+        if (result.isEmpty()) {
+            return Response.ok().entity(result).build();
+        } else {
+            return Response.status(404).entity("Unable to construct a list of users").build();
+        }
     }
 
 }

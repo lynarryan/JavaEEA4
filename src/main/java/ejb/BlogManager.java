@@ -19,12 +19,11 @@ import models.Blog_;
 @Stateless
 public class BlogManager extends ManagerBeans{
 
+
     public BlogManager() {
         
     }
-    public void outputValidBean() {
-        System.out.println("Is a valid bean");
-    }
+    
     
     @PersistenceContext(unitName = "assignment4")
     protected EntityManager em;
@@ -47,17 +46,22 @@ public class BlogManager extends ManagerBeans{
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void createBlog(Blog blog) {
+        BlogUser bu = blog.getBlogUser();
+        bu.addBlog(blog);
         em.persist(blog);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void updateBlog(Blog blogWithUpdatedFields) {
-        em.merge(blogWithUpdatedFields);
+        Blog stored = em.find(Blog.class,blogWithUpdatedFields.getId());
+        stored.setBlogName(blogWithUpdatedFields.getBlogName());
+        stored.getAudit().setUpdatedDate(blogWithUpdatedFields.getAudit().getUpdatedDate());
+        em.merge(stored);
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void deleteBlog(Blog blogToDelete) {
-        em.remove(blogToDelete);
+    public void deleteBlog(int id) {
+        em.remove(em.find(Blog.class,id));
     }
 
     public Blog getBlogById(int id) {

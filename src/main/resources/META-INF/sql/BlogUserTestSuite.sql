@@ -1,0 +1,7 @@
+-- any sql that is to be pre-loaded before testsuite runs goes in here
+-- statements must be a single line without returns
+
+--INSERT INTO PLATFORM_ROLE (ID, ROLENAME, VERSION, CREATE_DATE) VALUES (1, 'Admin', 1, CURRENT_TIMESTAMP());
+--INSERT INTO PLATFORM_ROLE (ID, ROLENAME, VERSION, CREATE_DATE) VALUES (2, 'User', 1, CURRENT_TIMESTAMP());
+
+-- (ID INTEGER IDENTITY NOT NULL, ROLENAME VARCHAR, VERSION INTEGER, CREATE_DATE DATE, UPDATE_DATE DATE, PRIMARY KEY (ID));
