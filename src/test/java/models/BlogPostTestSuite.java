@@ -130,13 +130,19 @@ public class BlogPostTestSuite implements TestSuiteConstants {
         Blog blog = new Blog();
         Blog blog2 = new Blog();
         blog.addBlog(post);
-
+        user.addBlog(blog2);
+       
         em.getTransaction().begin();
         em.persist(user);
         em.persist(blog);
-        em.persist(blog2);
         em.persist(post);
         em.getTransaction().commit();
+        
+        em.getTransaction().begin();
+        user.addBlog(blog2);
+        em.persist(blog2);
+        em.getTransaction().commit();
+        
 
         em.refresh(blog2);
         em.refresh(blog);
