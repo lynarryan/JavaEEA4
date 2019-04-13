@@ -28,13 +28,7 @@ public class Blog extends ModelBase implements Serializable {
         super();
     }
 
-    public String getBlogName() {
-        return blogName;
-    }
-
-    public void setBlogName(String blogName) {
-        this.blogName = blogName;
-    }
+    
 
     @OneToMany(mappedBy = "blog", cascade = CascadeType.REMOVE)
     public List<BlogPost> getBlogs() {
