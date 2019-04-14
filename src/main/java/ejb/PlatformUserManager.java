@@ -29,4 +29,5 @@ public class PlatformUserManager {
         em.persist(pU);
     }
 
+
 }
