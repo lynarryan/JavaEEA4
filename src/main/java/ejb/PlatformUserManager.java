@@ -18,4 +18,8 @@ public class PlatformUserManager {
         return result;
     }
 
+    public void createUser(PlatformUser pU) {
+        em.persist(pU);        
+    }
+
 }

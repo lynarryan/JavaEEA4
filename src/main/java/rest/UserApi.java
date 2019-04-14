@@ -28,7 +28,7 @@ public class UserApi {
 
     @GET
     @Path("/find/id")
-    @RolesAllowed("USER")
+    @RolesAllowed("user")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findByID(@QueryParam("id") int id, SecurityContext sc) {
 
