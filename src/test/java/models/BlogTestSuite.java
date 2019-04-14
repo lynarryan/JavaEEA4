@@ -1,9 +1,9 @@
 /**********************************************************************egg*m******a******n********************
- * File: EmployeeTestSuite.java
+ * File: BlogTestSuite.java
  * Course materials (19W) CST 8277
- * @author (original) Mike Norman
- * @author (editor/student) Lauren Preston 040-839-284
- * @author (editor/student) Gregory Leverton 040-885-599
+ * @author (student) Ryan Lynar 040-879-248
+ * @author (student) Lauren Preston 040-839-284
+ * @author (student) Gregory Leverton 040-885-599
  * 
  */
 package models;
@@ -83,6 +83,9 @@ public class BlogTestSuite implements TestSuiteConstants {
     }
 
     // C-R-U-D lifecycle
+    /**
+     * Test create a blog
+     */
     @Test
     public void _02_test_Create_Blog() {
         EntityManager em = emf.createEntityManager();
@@ -105,6 +108,9 @@ public class BlogTestSuite implements TestSuiteConstants {
         assertEquals(blog.getBlogUser(), bu);
     }
 
+    /**
+     * Test find blog by name
+     */
     @Test
     public void _03_test_Find_Blog_By_name() {
         EntityManager em = emf.createEntityManager();
@@ -116,6 +122,9 @@ public class BlogTestSuite implements TestSuiteConstants {
         assertEquals(blog.getBlogUser().getFirstName(), "Greg");
     }
 
+    /**
+     * test find blogs by user
+     */
     @Test
     public void _04_test_Find_Blogs_by_user() {
         EntityManager em = emf.createEntityManager();
@@ -170,6 +179,9 @@ public class BlogTestSuite implements TestSuiteConstants {
 
     }
 
+    /**
+     * Test update blog
+     */
     @Test
     public void _05_test_update_Blog_Title() {
         EntityManager em = emf.createEntityManager();
@@ -189,6 +201,9 @@ public class BlogTestSuite implements TestSuiteConstants {
 
     }
 
+    /**
+     * test delete blog
+     */
     @Test
     public void _06_test_delete_Blog() {
         EntityManager em = emf.createEntityManager();

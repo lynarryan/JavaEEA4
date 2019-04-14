@@ -1,3 +1,11 @@
+/**********************************************************************egg*m******a******n********************
+ * File: UserManager.java
+ * Course materials (19W) CST 8277
+ * @author (student) Ryan Lynar 040-879-248
+ * @author (student) Lauren Preston 040-839-284
+ * @author (student) Gregory Leverton 040-885-599
+ * 
+ */
 package ejb;
 
 import java.util.ArrayList;
@@ -28,6 +36,10 @@ public class UserManager extends ManagerBeans {
     @PersistenceContext(name = "assignment4")
     protected EntityManager em;
 
+    /**
+     * Add a BlogUser
+     * @param body
+     */
     public void create(BlogUser body) {
         Map<String, String> pbProp = new HashMap<>();
         pbProp.put("Pbkdf2PasswordHash.Algorithm", "PBKDF2WithHmacSHA256");
@@ -40,10 +52,21 @@ public class UserManager extends ManagerBeans {
         em.persist(body);
     }
 
+    /** 
+     * Find the blog user by their id
+     * @param id
+     * @return a Blog USer
+     */
     public BlogUser find(int id) {
         return em.find(BlogUser.class, id);
     }
 
+    /**
+     * Find BlogUser by full name
+     * @param firstName
+     * @param lastName
+     * @return The BlogUser
+     */
     public BlogUser find(String firstName, String lastName) {
         BlogUser result = null;
         System.out.println("Here");
@@ -59,6 +82,10 @@ public class UserManager extends ManagerBeans {
         return result;
     }
 
+    /**
+     * Update a BlogUser
+     * @param toUpdate
+     */
     public void update(BlogUser toUpdate) {
         BlogUser stored = em.find(BlogUser.class, toUpdate.getId());
         stored.setFirstName(toUpdate.getFirstName());
@@ -69,10 +96,18 @@ public class UserManager extends ManagerBeans {
 
     }
 
+    /**
+     * Delete a blog user
+     * @param id
+     */
     public void delete(int id) {
         em.remove(em.find(BlogUser.class, id));
     }
 
+    /**
+     * Find all users
+     * @return List of all users
+     */
     public List<BlogUser> list() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<BlogUser> cq = cb.createQuery(BlogUser.class);

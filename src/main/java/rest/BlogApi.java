@@ -1,3 +1,11 @@
+/**********************************************************************egg*m******a******n********************
+ * File: BlogApi.java
+ * Course materials (19W) CST 8277
+ * @author (student) Ryan Lynar 040-879-248
+ * @author (student) Lauren Preston 040-839-284
+ * @author (student) Gregory Leverton 040-885-599
+ * 
+ */
 package rest;
 
 import java.util.List;
@@ -32,6 +40,10 @@ public class BlogApi {
     @Context
     protected SecurityContext sc;
 
+    /**
+     * @param id
+     * @return
+     */
     @GET
     @Path("/find")
     @Produces(MediaType.APPLICATION_JSON)
@@ -44,6 +56,11 @@ public class BlogApi {
         }
     }
 
+    /**
+     * Create a blog
+     * @param body
+     * @return JSON response
+     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -52,6 +69,11 @@ public class BlogApi {
         return Response.ok().build();
     }
 
+    /**
+     * Update a blog
+     * @param body
+     * @return JSON response
+     */
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -60,6 +82,11 @@ public class BlogApi {
         return Response.ok().build();
     }
 
+    /**
+     * Delete a blog
+     * @param id
+     * @return JSON response
+     */
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed("ADMIN")
@@ -68,6 +95,10 @@ public class BlogApi {
         return Response.ok().build();
     }
 
+    /**
+     * Get blog list
+     * @return JSON response
+     */
     @GET
     @Path("/list")
     public Response listBlogs() {

@@ -1,3 +1,11 @@
+/**********************************************************************egg*m******a******n********************
+ * File: UserApi.java
+ * Course materials (19W) CST 8277
+ * @author (student) Ryan Lynar 040-879-248
+ * @author (student) Lauren Preston 040-839-284
+ * @author (student) Gregory Leverton 040-885-599
+ * 
+ */
 package rest;
 
 import java.security.Principal;
@@ -32,6 +40,11 @@ public class UserApi {
     @Context
     protected SecurityContext sc;
 
+    /**
+     * Find user by id
+     * @param id
+     * @return JSON response
+     */
     @GET
     @Path("/find/id")
     @RolesAllowed("USER")
@@ -46,6 +59,12 @@ public class UserApi {
         }
     }
 
+    /**
+     * Find user bu username
+     * @param firstName
+     * @param lastName
+     * @return JSON response
+     */
     @GET
     @Path("/find/name")
     @RolesAllowed("USER")
@@ -59,6 +78,11 @@ public class UserApi {
         }
     }
 
+    /**
+     * Create user
+     * @param body
+     * @return JSON response
+     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -69,6 +93,11 @@ public class UserApi {
 
     }
 
+    /**
+     * Update user
+     * @param toUpdate
+     * @return JSON response
+     */
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -78,6 +107,11 @@ public class UserApi {
         return Response.ok().build();
     }
 
+    /**
+     * Delete a user
+     * @param id
+     * @return JSON response
+     */
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed("ADMIN")
@@ -86,6 +120,10 @@ public class UserApi {
         return Response.ok().build();
     }
 
+    /**
+     * Get list of users
+     * @return JSON response
+     */
     @GET
     @Path("/list")
     @RolesAllowed("ADMIN")

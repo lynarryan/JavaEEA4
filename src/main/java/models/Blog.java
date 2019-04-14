@@ -1,3 +1,11 @@
+/**********************************************************************egg*m******a******n********************
+ * File: Blog.java
+ * Course materials (19W) CST 8277
+ * @author (student) Ryan Lynar 040-879-248
+ * @author (student) Lauren Preston 040-839-284
+ * @author (student) Gregory Leverton 040-885-599
+ * 
+ */
 package models;
 
 import java.io.Serializable;
@@ -24,19 +32,34 @@ public class Blog extends ModelBase implements Serializable {
     protected String blogName;
     private List<BlogPost> posts = new ArrayList<>();
 
+    /**
+     * No-arg constructor
+     */
     public Blog() {
         super();
     }
 
+    /**
+     * Getter for posts
+     * @return list of posts
+     */
     @OneToMany(mappedBy = "blog", cascade = CascadeType.REMOVE)
-    public List<BlogPost> getBlogs() {
+    public List<BlogPost> getBlogPosts() {
         return posts;
     }
 
-    public void setBlogs(List<BlogPost> posts) {
+    /**
+     * Setter for posts
+     * @param posts
+     */
+    public void setBlogPosts(List<BlogPost> posts) {
         this.posts = posts;
     }
 
+    /**
+     * Add a single post
+     * @param post
+     */
     public void addBlog(BlogPost post) {
         if (!this.posts.contains(post)) {
             this.posts.add(post);
@@ -44,6 +67,10 @@ public class Blog extends ModelBase implements Serializable {
         }
     }
 
+    /**
+     * Getter for User
+     * @return The BlogUser
+     */
     @JsonbTransient
     @ManyToOne
     @JoinColumn(name = "BLOG_USER_ID", nullable = false)
@@ -51,11 +78,18 @@ public class Blog extends ModelBase implements Serializable {
         return this.user;
     }
 
+    /**
+     * Setter for user
+     * @param user
+     */
     public void setBlogUser(BlogUser user) {
         user.addBlog(this);
         this.user = user;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -64,6 +98,9 @@ public class Blog extends ModelBase implements Serializable {
         return result;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -82,10 +119,18 @@ public class Blog extends ModelBase implements Serializable {
         return true;
     }
 
+    /**
+     * Getter for blogName
+     * @return the name of the blog
+     */
     public String getBlogName() {
         return blogName;
     }
 
+    /**
+     * Setter for blogName
+     * @param blogName
+     */
     public void setBlogName(String blogName) {
         this.blogName = blogName;
     }

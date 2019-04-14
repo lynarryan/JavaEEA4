@@ -1,10 +1,9 @@
-
 /**********************************************************************egg*m******a******n********************
- * File: EmployeeTestSuite.java
+ * File: BlogPostTestSuite.java
  * Course materials (19W) CST 8277
- * @author (original) Mike Norman
- * @author (editor/student) Lauren Preston 040-839-284
- * @author (editor/student) Gregory Leverton 040-885-599
+ * @author (student) Ryan Lynar 040-879-248
+ * @author (student) Lauren Preston 040-839-284
+ * @author (student) Gregory Leverton 040-885-599
  * 
  */
 
@@ -63,7 +62,6 @@ public class BlogPostTestSuite implements TestSuiteConstants {
     /**
      * Set up the test class
      */
-
     @BeforeClass
     public static void oneTimeSetUp() {
         try {
@@ -94,6 +92,9 @@ public class BlogPostTestSuite implements TestSuiteConstants {
 
     // C-R-U-D lifecycle
 
+    /**
+     * Test Create a blog post
+     */
     @Test
     public void _02_test_Create_BlogPost() {
 
@@ -119,6 +120,9 @@ public class BlogPostTestSuite implements TestSuiteConstants {
         em.close();
     }
 
+    /**
+     * Test finding posts by user
+     */
     @Test
     public void _03_test_Find_BlogPost_by_user() {
         logger.debug("TEST_FIND_BY_USER");
@@ -159,6 +163,9 @@ public class BlogPostTestSuite implements TestSuiteConstants {
 
     }
 
+    /**
+     * Test finding post by id
+     */
     @Test
     public void _04_test_Find_BlogPost_by_id() {
         logger.debug("TEST_FIND_BY_ID");
@@ -189,6 +196,9 @@ public class BlogPostTestSuite implements TestSuiteConstants {
 
     }
 
+    /**
+     * Test update a post
+     */
     @Test
     public void _05_test_update_BlogPost() {
         logger.debug("TEST_UPDATE");
@@ -225,6 +235,9 @@ public class BlogPostTestSuite implements TestSuiteConstants {
         em.close();
     }
 
+    /**
+     * Test delete a post
+     */
     @Test
     public void _06_test_delete_BlogPost() {
         logger.debug("TEST_REMOVE");
@@ -252,6 +265,9 @@ public class BlogPostTestSuite implements TestSuiteConstants {
         em.close();
     }
 
+    /**
+     * test list posts by user
+     */
     @Test
     public void _07_test_list_BlogPosts_by_a_user() {
         EntityManager em = emf.createEntityManager();
@@ -284,6 +300,9 @@ public class BlogPostTestSuite implements TestSuiteConstants {
 
     /**
      * Clean up after all tests are run
+     */
+    /**
+     * 
      */
     @AfterClass
     public static void oneTimeTearDown() {

@@ -1,3 +1,11 @@
+/**********************************************************************egg*m******a******n********************
+ * File: RestConfig.java
+ * Course materials (19W) CST 8277
+ * @author (student) Ryan Lynar 040-879-248
+ * @author (student) Lauren Preston 040-839-284
+ * @author (student) Gregory Leverton 040-885-599
+ * 
+ */
 package rest;
 
 import java.util.HashSet;
@@ -19,6 +27,9 @@ import org.eclipse.microprofile.openapi.annotations.servers.Server;
 public class RestConfig extends Application {
 
     
+    /* (non-Javadoc)
+     * @see javax.ws.rs.core.Application#getClasses()
+     */
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new HashSet<>();
@@ -29,6 +40,10 @@ public class RestConfig extends Application {
         return resources;
     }
 
+    /**
+     * Get test
+     * @return JSON response
+     */
     @GET
     public Response simpleTest() {
         return Response.ok().build();

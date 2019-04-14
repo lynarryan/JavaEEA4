@@ -1,3 +1,12 @@
+/**********************************************************************egg*m******a******n********************
+ * File: PlatformUser.java
+ * Course materials (19W) CST 8277
+ * @author (Original) Mike Norman
+ * @author (student) Ryan Lynar 040-879-248
+ * @author (student) Lauren Preston 040-839-284
+ * @author (student) Gregory Leverton 040-885-599
+ * 
+ */
 package models;
 
 import java.io.Serializable;
@@ -34,27 +43,50 @@ public class PlatformUser extends ModelBase implements Serializable, Principal{
     }
     
     
+    /* (non-Javadoc)
+     * @see java.security.Principal#getName()
+     */
     @Override
     public String getName() {
         return userName;
     }
+    /**
+     * Getter for userName
+     * @return the userName
+     */
     public String getUserName() {
         return userName;
     }
 
+    /**
+     * Setter for userName
+     * @param userName
+     */
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
     
 
+    /**
+     * Getter for PwHash
+     * @return the password hash
+     */
     public String getPwHash() {
         return pwHash;
     }
+    /**
+     * Setter for pwHash
+     * @param pwHash
+     */
     public void setPwHash(String pwHash) {
         this.pwHash = pwHash;
     }
 
+    /**
+     * Getter for platformRoles
+     * @return the Platform roles
+     */
     @ManyToMany(cascade = {
         CascadeType.PERSIST,
         CascadeType.MERGE
@@ -65,15 +97,26 @@ public class PlatformUser extends ModelBase implements Serializable, Principal{
     public Set<PlatformRole> getPlatformRoles() {
         return platformRoles;
     }
+    /**
+     * Setter for platformRoles
+     * @param platformRoles
+     */
     public void setPlatformRoles(Set<PlatformRole> platformRoles) {
         this.platformRoles = platformRoles;
     }
     
+    /**
+     * Ass a single platformRole
+     * @param platformrole
+     */
     public void addPlatformRole(PlatformRole platformrole) {
         this.platformRoles.add(platformrole);
     }
     
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
@@ -85,6 +128,9 @@ public class PlatformUser extends ModelBase implements Serializable, Principal{
         return result;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
