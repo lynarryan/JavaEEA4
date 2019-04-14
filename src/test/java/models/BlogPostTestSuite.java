@@ -9,42 +9,23 @@
 
 package models;
 
-import static models.TestSuiteConstants.attachListAppender;
 import static models.TestSuiteConstants.buildEntityManagerFactory;
-import static models.TestSuiteConstants.detachListAppender;
-import static org.hamcrest.core.StringStartsWith.startsWith;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
 import java.lang.invoke.MethodHandles;
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.criteria.Root;
 
 import org.h2.tools.Server;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.read.ListAppender;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BlogPostTestSuite implements TestSuiteConstants {
@@ -133,10 +114,11 @@ public class BlogPostTestSuite implements TestSuiteConstants {
         BlogPost post = new BlogPost();
         Blog blog = new Blog();
         Blog blog2 = new Blog();
-        blog.addBlog(post);
+
         user.addBlog(blog);
-       
-        em.getTransaction().begin();
+        blog.addBlog(post);
+
+       em.getTransaction().begin();
         em.persist(user);
         em.persist(blog);
         em.persist(post);
@@ -147,9 +129,6 @@ public class BlogPostTestSuite implements TestSuiteConstants {
         em.persist(blog2);
         em.getTransaction().commit();
         
-
-        em.refresh(blog2);
-        em.refresh(blog);
 
         String findPostByUserName = "SELECT p FROM BlogPost p where p.blog IN (SELECT b FROM Blog b WHERE b.blogUser IN (SELECT bu from BlogUser bu where bu.firstName = :fn AND bu.lastName = :ln))";
         BlogPost result = em.createQuery(findPostByUserName, BlogPost.class).setParameter("fn", user.firstName)

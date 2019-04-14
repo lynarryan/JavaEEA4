@@ -25,7 +25,6 @@ import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
 import org.glassfish.soteria.WrappingCallerPrincipal;
 
 import ejb.PlatformUserManager;
-import ejb.UserManager;
 import models.PlatformRole;
 import models.PlatformUser;
 

@@ -15,11 +15,9 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
 import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;

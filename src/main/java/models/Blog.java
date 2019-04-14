@@ -43,7 +43,7 @@ public class Blog extends ModelBase implements Serializable {
      * Getter for posts
      * @return list of posts
      */
-    @OneToMany(mappedBy = "blog", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
     public List<BlogPost> getBlogPosts() {
         return posts;
     }
@@ -73,7 +73,7 @@ public class Blog extends ModelBase implements Serializable {
      */
     @JsonbTransient
     @ManyToOne
-    @JoinColumn(name = "BLOG_USER_ID", nullable = false)
+    @JoinColumn(name = "BLOG_USER_ID", nullable = true)
     public BlogUser getBlogUser() {
         return this.user;
     }
@@ -83,7 +83,6 @@ public class Blog extends ModelBase implements Serializable {
      * @param user
      */
     public void setBlogUser(BlogUser user) {
-        user.addBlog(this);
         this.user = user;
     }
 

@@ -12,7 +12,6 @@ import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
-import javax.inject.Inject;
 import javax.security.enterprise.SecurityContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -28,8 +27,9 @@ import javax.ws.rs.core.Response;
 
 import ejb.BlogManager;
 import models.Blog;
+import models.BlogUser;
 
-@Path("/blog/")
+@Path("/blog")
 @RolesAllowed("ADMIN")
 public class BlogApi {
 
@@ -50,11 +50,12 @@ public class BlogApi {
     public Response findByID(@QueryParam("id") int id) {
         Blog result = blogBean.getBlogById(id);
         if (result != null) {
-            return Response.ok().entity(blogBean.getBlogById(id)).build();
+            return Response.ok().entity(result).build();
         } else {
             return Response.status(404).entity("Unable to find a blog with the provided id").build();
         }
     }
+   
 
     /**
      * Create a blog
@@ -111,4 +112,16 @@ public class BlogApi {
 
     }
 
+    @POST
+    @Path("/list/user")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response findBlogs(BlogUser body) {
+        List<Blog> result = blogBean.getBlogList(body);
+        if(!result.isEmpty()) {
+            return Response.ok().entity(result).build();
+        }else {
+            return Response.status(404).entity("Unable to Construct a list of blogs for that user").build();
+        }
+    }
 }

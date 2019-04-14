@@ -9,9 +9,9 @@
 		transaction-type="JTA">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<jta-data-source>jdbc/a4db</jta-data-source>
-		<class>models.BlogPost</class>
 		<class>models.Audit</class>
 		<class>models.Blog</class>
+		<class>models.BlogPost</class>
 		<class>models.BlogUser</class>
 		<class>models.Comment</class>
 		<class>models.ModelBase</class>
