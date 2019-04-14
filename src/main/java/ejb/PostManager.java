@@ -15,10 +15,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.ws.rs.POST;
 
 import models.Blog;
 import models.BlogPost;
+import models.BlogPost_;
+
 
 @Stateless
 public class PostManager extends ManagerBeans {
@@ -27,8 +30,9 @@ public class PostManager extends ManagerBeans {
     protected EntityManager em;
 
     /**
+     * Find blog post by its id
      * @param id
-     * @return
+     * @return Post
      */
     public BlogPost findByID(int id) {
         return em.find(BlogPost.class, id);
@@ -71,6 +75,16 @@ public class PostManager extends ManagerBeans {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<BlogPost> cq = cb.createQuery(BlogPost.class);
         cq.select(cq.from(BlogPost.class));
+        return em.createQuery(cq).getResultList();
+    }
+    
+    public List<BlogPost> getPostsByBlog(Blog blog){
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<BlogPost> cq = cb.createQuery(BlogPost.class);
+        Root<BlogPost> rootBlogPostQuery = cq.from(BlogPost.class);
+        cq.select(cq.from(BlogPost.class));
+        cq.where(cb.and(
+                 cb.equal(rootBlogPostQuery.get(BlogPost_.blog), blog )));
         return em.createQuery(cq).getResultList();
     }
 
