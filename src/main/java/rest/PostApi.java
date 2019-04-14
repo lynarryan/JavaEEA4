@@ -26,6 +26,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import ejb.PostManager;
+import models.Blog;
 import models.BlogPost;
 
 @Path("/post")
@@ -40,6 +41,7 @@ public class PostApi {
 
     /**
      * Find a post by id
+     * 
      * @param id
      * @return JSON response
      */
@@ -57,6 +59,7 @@ public class PostApi {
 
     /**
      * Add a post
+     * 
      * @param postToAdd
      * @return JSON response
      */
@@ -70,6 +73,7 @@ public class PostApi {
 
     /**
      * Update post
+     * 
      * @param toUpdate
      * @return JSON response
      */
@@ -82,6 +86,7 @@ public class PostApi {
 
     /**
      * Delete a post
+     * 
      * @param id
      * @return JSON response
      */
@@ -94,6 +99,7 @@ public class PostApi {
 
     /**
      * Get a list of posts
+     * 
      * @return JSON response
      */
     @GET
@@ -103,9 +109,21 @@ public class PostApi {
         System.out.println("listPosts");
         List<BlogPost> result = postBean.list();
         if (!result.isEmpty()) {
-            return Response.ok().entity(postBean.list()).build();
+            return Response.ok().entity(result).build();
         } else {
             return Response.status(404).entity("Unable to produce a list of posts").build();
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/list/blog")
+    public Response listPostsByBlog(Blog body) {
+        List<BlogPost> res = postBean.getPostsByBlog(body);
+        if (!res.isEmpty()) {
+            return Response.ok().entity(res).build();
+        } else {
+            return Response.status(404).entity("Unable to Produce a list of posts with provided blog").build();
         }
     }
 
