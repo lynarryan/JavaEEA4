@@ -2,6 +2,7 @@ package rest;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -19,6 +20,7 @@ import ejb.BlogManager;
 import models.Blog;
 
 @Path("/blog/")
+@RolesAllowed("ADMIN")
 public class BlogApi {
 
     @EJB
@@ -54,6 +56,7 @@ public class BlogApi {
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("ADMIN")
     public Response deleteBlog(@QueryParam("id") int id) {
         blogBean.deleteBlog(id);
         return Response.ok().build();

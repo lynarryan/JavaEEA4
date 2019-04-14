@@ -3,6 +3,7 @@ package rest;
 import java.security.Principal;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.inject.Inject;
@@ -27,8 +28,8 @@ public class UserApi {
     @EJB
     UserManager userBean;
     
-    //@Inject
-    //SecurityContext sc;
+    @Inject
+    SecurityContext sc;
 
     @GET
     @Path("/find/id")
@@ -60,9 +61,8 @@ public class UserApi {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @RolesAllowed("USER")
+    @RolesAllowed("ADMIN")
     public Response createUser(BlogUser body) {
-
         userBean.create(body);
         return Response.ok().build();
 
@@ -71,7 +71,7 @@ public class UserApi {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @RolesAllowed("USER")
+    @PermitAll
     public Response updateUser(BlogUser toUpdate) {
         userBean.update(toUpdate);
         return Response.ok().build();
@@ -79,7 +79,7 @@ public class UserApi {
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("USER")
+    @RolesAllowed("ADMIN")
     public Response deleteUser(@QueryParam("id") int id) {
         userBean.delete(id);
         return Response.ok().build();
@@ -87,7 +87,7 @@ public class UserApi {
 
     @GET
     @Path("/list")
-    @RolesAllowed("USER")
+    @RolesAllowed("ADMIN")
     public Response listUsers() {
         List<BlogUser> result = userBean.list();
         if (result.isEmpty()) {

@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 
 import models.BlogPost;
 import models.BlogUser;
+import models.PlatformUser;
 
 @Stateless
 public class UserManager extends ManagerBeans {
