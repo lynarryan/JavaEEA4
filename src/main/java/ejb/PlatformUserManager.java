@@ -13,13 +13,17 @@ public class PlatformUserManager {
 
     public PlatformUser findByName(String userName) {
         PlatformUser result = null;
-        String findByUserName = "SELECT pu FROM PlatformUser pu WHERE username = :un";
-        result = em.createQuery(findByUserName, PlatformUser.class).setParameter("un", userName).getSingleResult(); 
+        String findByUserName = "SELECT pu FROM PlatformUser pu WHERE pu.userName = :un";
+        try {
+            result = em.createQuery(findByUserName, PlatformUser.class).setParameter("un", userName).getSingleResult();
+        } catch (Exception e) {
+
+        }
         return result;
     }
 
     public void createUser(PlatformUser pU) {
-        em.persist(pU);        
+        em.persist(pU);
     }
 
 }

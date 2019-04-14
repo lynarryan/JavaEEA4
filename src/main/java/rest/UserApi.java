@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.security.enterprise.SecurityContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -25,30 +26,27 @@ public class UserApi {
 
     @EJB
     UserManager userBean;
+    
+    //@Inject
+    //SecurityContext sc;
 
     @GET
     @Path("/find/id")
-    @RolesAllowed("user")
+    @RolesAllowed("USER")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findByID(@QueryParam("id") int id, SecurityContext sc) {
+    public Response findByID(@QueryParam("id") int id) {
 
-        Principal p = sc.getCallerPrincipal();
-        if (p == null) {
-            return Response.serverError().entity("{\"message\":\"missing principal\"}").build();
-        } else {
-            PlatformUser pUser = (PlatformUser) p;
-            BlogUser result = userBean.find(id);
-            if (pUser.getId() == result.getId()) {
-                if (result != null) {
-                    return Response.ok(result).build();
-                }
-            }
+        BlogUser result = userBean.find(id);
+        if (result != null) {
+            return Response.ok(result).build();
+        }else {
+            return Response.status(404).entity("Unable to find a user with provided id").build();
         }
-        return Response.status(403).entity("UNAUTHORIZED ACCESS").build();
     }
 
     @GET
     @Path("/find/name")
+    @RolesAllowed("USER")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findByUserName(@QueryParam("firstName") String firstName, @QueryParam("lastName") String lastName) {
         BlogUser result = userBean.find(firstName, lastName);
@@ -62,6 +60,7 @@ public class UserApi {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed("USER")
     public Response createUser(BlogUser body) {
 
         userBean.create(body);
@@ -72,6 +71,7 @@ public class UserApi {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed("USER")
     public Response updateUser(BlogUser toUpdate) {
         userBean.update(toUpdate);
         return Response.ok().build();
@@ -79,6 +79,7 @@ public class UserApi {
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("USER")
     public Response deleteUser(@QueryParam("id") int id) {
         userBean.delete(id);
         return Response.ok().build();
@@ -86,6 +87,7 @@ public class UserApi {
 
     @GET
     @Path("/list")
+    @RolesAllowed("USER")
     public Response listUsers() {
         List<BlogUser> result = userBean.list();
         if (result.isEmpty()) {

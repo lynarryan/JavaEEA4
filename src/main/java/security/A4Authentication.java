@@ -3,6 +3,7 @@ package security;
 import java.security.Principal;
 import java.util.Base64;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.security.enterprise.AuthenticationException;
 import javax.security.enterprise.AuthenticationStatus;
@@ -16,8 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
 
 import org.glassfish.soteria.WrappingCallerPrincipal;
-
+@ApplicationScoped
 public class A4Authentication implements HttpAuthenticationMechanism {
+    
     @Inject
     private IdentityStore iStore;
     
@@ -29,6 +31,7 @@ public class A4Authentication implements HttpAuthenticationMechanism {
         if(authHeader == null) {
             result =httpMessageContext.responseUnauthorized();
         }else {
+            System.out.println("In validateRequest");
             String name = null;
             String pw = null;
             boolean basic = authHeader.toLowerCase().startsWith(request.BASIC_AUTH.toLowerCase());
