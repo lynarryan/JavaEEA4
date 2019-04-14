@@ -114,7 +114,7 @@ public class PostApi {
         }
     }
 
-    @GET
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/list/blog")
     public Response listPostsByBlog(Blog body) {
