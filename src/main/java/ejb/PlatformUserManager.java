@@ -1,12 +1,15 @@
 package ejb;
 
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import models.PlatformUser;
 
-@Stateless
+@ApplicationScoped
+@Default
 public class PlatformUserManager {
     @PersistenceContext(unitName = "assignment4")
     protected EntityManager em;

@@ -52,7 +52,7 @@ public class BlogUser extends ModelBase implements Serializable {
         return email;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PLAT_USER_ID")
     public PlatformUser getPlatformUser() {
         return platformUser;

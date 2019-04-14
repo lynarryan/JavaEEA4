@@ -18,6 +18,7 @@ import org.eclipse.microprofile.openapi.annotations.servers.Server;
 @OpenAPIDefinition(info = @Info(title = "a4", version = "1.0"), servers = { @Server(url = "/a4") })
 public class RestConfig extends Application {
 
+    
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new HashSet<>();
