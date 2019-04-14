@@ -27,6 +27,7 @@ import javax.ws.rs.core.Response;
 
 import ejb.BlogManager;
 import models.Blog;
+import models.BlogUser;
 
 @Path("/blog/")
 @RolesAllowed("ADMIN")
@@ -49,9 +50,20 @@ public class BlogApi {
     public Response findByID(@QueryParam("id") int id) {
         Blog result = blogBean.getBlogById(id);
         if (result != null) {
-            return Response.ok().entity(blogBean.getBlogById(id)).build();
+            return Response.ok().entity(result).build();
         } else {
             return Response.status(404).entity("Unable to find a blog with the provided id").build();
+        }
+    }
+    @GET
+    @Path("/find/user")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findBlogs(BlogUser user) {
+        List<Blog> result = blogBean.getBlogList(user);
+        if(!result.isEmpty()) {
+            return Response.ok().entity(result).build();
+        }else {
+            return Response.status(404).entity("Unable to Construct a list of blogs for that user").build();
         }
     }
 
