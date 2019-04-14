@@ -111,7 +111,7 @@ public class CommentApi {
      * @param post
      * @return
      */
-    @GET
+    @POST
     @PermitAll
     @Path("/list/post")
     @Produces(MediaType.APPLICATION_JSON)

@@ -29,7 +29,7 @@ import ejb.BlogManager;
 import models.Blog;
 import models.BlogUser;
 
-@Path("/blog/")
+@Path("/blog")
 @RolesAllowed("ADMIN")
 public class BlogApi {
 
@@ -55,17 +55,7 @@ public class BlogApi {
             return Response.status(404).entity("Unable to find a blog with the provided id").build();
         }
     }
-    @GET
-    @Path("/find/user")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response findBlogs(BlogUser user) {
-        List<Blog> result = blogBean.getBlogList(user);
-        if(!result.isEmpty()) {
-            return Response.ok().entity(result).build();
-        }else {
-            return Response.status(404).entity("Unable to Construct a list of blogs for that user").build();
-        }
-    }
+   
 
     /**
      * Create a blog
@@ -122,4 +112,16 @@ public class BlogApi {
 
     }
 
+    @POST
+    @Path("/list/user")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response findBlogs(BlogUser body) {
+        List<Blog> result = blogBean.getBlogList(body);
+        if(!result.isEmpty()) {
+            return Response.ok().entity(result).build();
+        }else {
+            return Response.status(404).entity("Unable to Construct a list of blogs for that user").build();
+        }
+    }
 }

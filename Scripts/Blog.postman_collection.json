@@ -1,0 +1,223 @@
+{
+	"info": {
+		"_postman_id": "d2652b57-8dc3-46bc-a3bd-e6e55823bf8e",
+		"name": "Blog",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreateBlog",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"blogName\": \"TestName\",\n    \"blogUser\": {\n        \"audit\": {\n            \"createdDate\": \"2019-04-13T14:55:44.334\",\n            \"updatedDate\": \"2019-04-13T14:55:44.32\"\n        },\n        \"id\": 1,\n        \"version\": 1,\n        \"email\": \"testUser@mail.com\",\n        \"firstName\": \"test\",\n        \"lastName\": \"user\"\n    }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/a4/blog/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"a4",
+						"blog",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBlogByID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/a4/blog/find?id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"a4",
+						"blog",
+						"find"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteBlog",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/a4/blog?id=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"a4",
+						"blog"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateBlog",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"blogName\": \"updatedBlog\",\n    \"blogUser\": {\n        \"audit\": {\n            \"createdDate\": \"2019-04-13T14:55:44.334\",\n            \"updatedDate\": \"2019-04-13T14:55:44.32\"\n        },\n        \"id\": 1,\n        \"email\": \"testUser@mail.com\",\n        \"firstName\": \"test\",\n        \"lastName\": \"user\"\n    \n    },\n    \"id\":1\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/a4/blog",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"a4",
+						"blog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetBlogList",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetBlogList From User",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"audit\": {\n        \"createdDate\": \"2019-04-14T13:29:04.306\",\n        \"updatedDate\": \"2019-04-14T13:29:04.294\"\n    },\n    \"id\": 1,\n    \"version\": 1,\n    \"email\": \"testUser@mail.com\",\n    \"firstName\": \"test\",\n    \"lastName\": \"user\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/a4/blog/list/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"a4",
+						"blog",
+						"list",
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
