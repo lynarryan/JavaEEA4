@@ -1,3 +1,11 @@
+/**********************************************************************egg*m******a******n********************
+ * File: A4IdentityStore.java
+ * Course materials (19W) CST 8277
+ * @author (student) Ryan Lynar 040-879-248
+ * @author (student) Lauren Preston 040-839-284
+ * @author (student) Gregory Leverton 040-885-599
+ * 
+ */
 package security;
 
 import java.util.HashSet;

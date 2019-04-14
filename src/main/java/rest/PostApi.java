@@ -1,3 +1,11 @@
+/**********************************************************************egg*m******a******n********************
+ * File: PostApi.java
+ * Course materials (19W) CST 8277
+ * @author (student) Ryan Lynar 040-879-248
+ * @author (student) Lauren Preston 040-839-284
+ * @author (student) Gregory Leverton 040-885-599
+ * 
+ */
 package rest;
 
 import java.util.List;
@@ -30,6 +38,11 @@ public class PostApi {
     @EJB
     PostManager postBean;
 
+    /**
+     * Find a post by id
+     * @param id
+     * @return JSON response
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/find")
@@ -42,6 +55,11 @@ public class PostApi {
         }
     }
 
+    /**
+     * Add a post
+     * @param postToAdd
+     * @return JSON response
+     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -50,6 +68,11 @@ public class PostApi {
         return Response.ok().build();
     }
 
+    /**
+     * Update post
+     * @param toUpdate
+     * @return JSON response
+     */
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     public Response updatePost(BlogPost toUpdate) {
@@ -57,6 +80,11 @@ public class PostApi {
         return Response.ok().build();
     }
 
+    /**
+     * Delete a post
+     * @param id
+     * @return JSON response
+     */
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public Response deletePost(@QueryParam("id") int id) {
@@ -64,6 +92,10 @@ public class PostApi {
         return Response.ok().build();
     }
 
+    /**
+     * Get a list of posts
+     * @return JSON response
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/list")

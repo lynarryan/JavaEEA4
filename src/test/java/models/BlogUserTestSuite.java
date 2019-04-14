@@ -1,9 +1,9 @@
 /**********************************************************************egg*m******a******n********************
- * File: EmployeeTestSuite.java
+ * File: BlogUserTestSuite.java
  * Course materials (19W) CST 8277
- * @author (original) Mike Norman
- * @author (editor/student) Lauren Preston 040-839-284
- * @author (editor/student) Gregory Leverton 040-885-599
+ * @author (student) Ryan Lynar 040-879-248
+ * @author (student) Lauren Preston 040-839-284
+ * @author (student) Gregory Leverton 040-885-599
  * 
  */
 package models;
@@ -77,6 +77,9 @@ public class BlogUserTestSuite implements TestSuiteConstants {
     }
 
     // C-R-U-D lifecycle
+    /**
+     * Test create blog user
+     */
     @Test
     public void _02_test_Create_BlogUser() {
         EntityManager em = emf.createEntityManager();
@@ -112,6 +115,9 @@ public class BlogUserTestSuite implements TestSuiteConstants {
         assertEquals(pu, platformUser);        
     }
     
+    /**
+     * Test find blog user by name
+     */
     @Test
     public void _03_test_Find_Blog_User_By_name() {
         EntityManager em = emf.createEntityManager();
@@ -125,6 +131,9 @@ public class BlogUserTestSuite implements TestSuiteConstants {
         assertEquals(blogUser.getPlatformUser().getUserName(), "test");
     }
     
+    /**
+     * Test find blog users
+     */
     @Test
     public void _04_test_Find_Blog_Users() {
         EntityManager em = emf.createEntityManager();
@@ -179,6 +188,9 @@ public class BlogUserTestSuite implements TestSuiteConstants {
          
         }
     
+    /**
+     * Test find blog by username
+     */
     @Test
     public void _05_test_find_BlogUser_By_Username() {
         EntityManager em = emf.createEntityManager();
@@ -194,6 +206,9 @@ public class BlogUserTestSuite implements TestSuiteConstants {
         
     }
     
+    /**
+     * Test update First name
+     */
     @Test
     public void _06_test_Update_First_Name() {
         EntityManager em = emf.createEntityManager();
@@ -223,6 +238,9 @@ public class BlogUserTestSuite implements TestSuiteConstants {
         
     }
     
+    /**
+     * Test delete user
+     */
     @Test
     public void _07_test_delete_User() {
         EntityManager em = emf.createEntityManager();

@@ -1,3 +1,11 @@
+/**********************************************************************egg*m******a******n********************
+ * File: PostManager.java
+ * Course materials (19W) CST 8277
+ * @author (student) Ryan Lynar 040-879-248
+ * @author (student) Lauren Preston 040-839-284
+ * @author (student) Gregory Leverton 040-885-599
+ * 
+ */
 package ejb;
 
 import java.util.List;
@@ -18,16 +26,28 @@ public class PostManager extends ManagerBeans {
     @PersistenceContext(name = "assignment4")
     protected EntityManager em;
 
+    /**
+     * @param id
+     * @return
+     */
     public BlogPost findByID(int id) {
         return em.find(BlogPost.class, id);
     }
 
+    /**
+     * Add a blog post
+     * @param postToAdd
+     */
     public void add(BlogPost postToAdd) {
         System.out.println("Here");
         System.out.println(postToAdd.toString());
         em.persist(postToAdd);
     }
 
+    /**
+     * Update a blog post
+     * @param toUpdate
+     */
     public void update(BlogPost toUpdate) {
         BlogPost post = em.find(BlogPost.class, toUpdate.getId());
         post.setPostText(toUpdate.getPostText());
@@ -35,10 +55,18 @@ public class PostManager extends ManagerBeans {
         em.merge(post);
     }
 
+    /**
+     * Remove a blog post
+     * @param id
+     */
     public void remove(int id) {
         em.remove(em.find(BlogPost.class, id));
     }
 
+    /**
+     * Get a list of blog posts
+     * @return List of blog posts
+     */
     public List<BlogPost> list() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<BlogPost> cq = cb.createQuery(BlogPost.class);

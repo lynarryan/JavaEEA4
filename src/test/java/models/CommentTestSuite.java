@@ -1,9 +1,9 @@
 /**********************************************************************egg*m******a******n********************
- * File: EmployeeTestSuite.java
+ * File: CommentTestSuite.java
  * Course materials (19W) CST 8277
- * @author (original) Mike Norman
- * @author (editor/student) Lauren Preston 040-839-284
- * @author (editor/student) Gregory Leverton 040-885-599
+ * @author (student) Ryan Lynar 040-879-248
+ * @author (student) Lauren Preston 040-839-284
+ * @author (student) Gregory Leverton 040-885-599
  * 
  */
 

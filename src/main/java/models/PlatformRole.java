@@ -1,3 +1,12 @@
+/**********************************************************************egg*m******a******n********************
+ * File: PlatformRole.java
+ * Course materials (19W) CST 8277
+ * @author (original) Mike Norman
+ * @author (student) Ryan Lynar 040-879-248
+ * @author (student) Lauren Preston 040-839-284
+ * @author (student) Gregory Leverton 040-885-599
+ * 
+ */
 package models;
 
 import java.io.Serializable;
@@ -18,6 +27,9 @@ public class PlatformRole extends ModelBase implements Serializable {
     /** explicit set serialVersionUID */
     private static final long serialVersionUID = 1L;
     
+    /**
+     * Default constructor
+     */
     public PlatformRole() {
         super();
     }
@@ -25,25 +37,48 @@ public class PlatformRole extends ModelBase implements Serializable {
     protected String roleName;
     protected List<PlatformUser> platformUsers = new ArrayList<>();
 
+    /**
+     * Getter for roleName
+     * @return The name of the role
+     */
     public String getRoleName() {
         return roleName;
     }
+    /**
+     * Setter for roleName
+     * @param roleName
+     */
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
 
+    /**
+     * Getter for platformUsers
+     * @return The Users with the role
+     */
     @ManyToMany(mappedBy="platformRoles")
     public List<PlatformUser> getPlatformUsers() {
         return platformUsers;
     }
+    /**
+     * Setter for platformUsers
+     * @param platformUsers
+     */
     public void setPlatformUsers(List<PlatformUser> platformUsers) {
         this.platformUsers = platformUsers;
     }
     
+    /**
+     * Add a platformUser
+     * @param platformUser
+     */
     public void addPlatformUser(PlatformUser platformUser) {
         this.platformUsers.add(platformUser);
     }
     
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
@@ -55,6 +90,9 @@ public class PlatformRole extends ModelBase implements Serializable {
         return result;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
