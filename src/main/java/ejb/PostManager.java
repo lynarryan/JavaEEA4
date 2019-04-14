@@ -16,8 +16,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.ws.rs.POST;
-
 import models.Blog;
 import models.BlogPost;
 import models.BlogPost_;
