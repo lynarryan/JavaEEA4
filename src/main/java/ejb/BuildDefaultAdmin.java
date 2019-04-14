@@ -40,27 +40,27 @@ public class BuildDefaultAdmin {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @PostConstruct
     public void init() {
+        System.out.println(defaultAdminUsername + " " + defaultAdminPassword);
         PlatformUser admin;
-        try {
-            admin = jpa.findByName(defaultAdminUsername);
-        } catch (NoResultException e) {
-            admin = new PlatformUser();
-            Map<String, String> pbProp = new HashMap<>();
-            pbProp.put("Pbkdf2PasswordHash.Algorithim", "PBKDF2WithHmacSHA256");
-            pbProp.put("Pbkdf2PasswordHash.Iterations", "2048");
-            pbProp.put("Pbkdf2PasswordHash.SaltSizeBytes", "32");
-            pbProp.put("Pbkdf2PasswordHash.KeySizeBytes", "32");
-            pbHash.initialize(pbProp);
 
-            String pwHash = pbHash.generate(defaultAdminPassword.toCharArray());
-            admin.setPwHash(pwHash);
+        admin = jpa.findByName(defaultAdminUsername);
+        System.out.println("here2");
+        admin = new PlatformUser();
+        Map<String, String> pbProp = new HashMap<>();
+        pbProp.put("Pbkdf2PasswordHash.Algorithm", "PBKDF2WithHmacSHA256");
+        pbProp.put("Pbkdf2PasswordHash.Iterations", "2048");
+        pbProp.put("Pbkdf2PasswordHash.SaltSizeBytes", "32");
+        pbProp.put("Pbkdf2PasswordHash.KeySizeBytes", "32");
+        pbHash.initialize(pbProp);
 
-            PlatformRole platRole = new PlatformRole();
-            platRole.setRoleName("USER");
-            Set<PlatformRole> roles = admin.getPlatformRoles();
-            roles.add(platRole);
-            jpa.createUser(admin);
-        }
-
+        String pwHash = pbHash.generate(defaultAdminPassword.toCharArray());
+        admin.setPwHash(pwHash);
+        admin.setUserName(defaultAdminUsername);
+        PlatformRole platRole = new PlatformRole();
+        platRole.setRoleName("USER");
+        Set<PlatformRole> roles = admin.getPlatformRoles();
+        roles.add(platRole);
+        jpa.createUser(admin);
     }
+
 }
