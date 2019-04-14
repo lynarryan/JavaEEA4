@@ -83,7 +83,6 @@ public class Blog extends ModelBase implements Serializable {
      * @param user
      */
     public void setBlogUser(BlogUser user) {
-        user.addBlog(this);
         this.user = user;
     }
 

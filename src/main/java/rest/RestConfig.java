@@ -37,6 +37,7 @@ public class RestConfig extends Application {
         resources.add(BlogApi.class);
         resources.add(PostApi.class);
         resources.add(PlatformUserApi.class);
+        resources.add(CommentApi.class);
         return resources;
     }
 

@@ -8,12 +8,10 @@
  */
 package ejb;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -22,9 +20,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
 
-import models.BlogPost;
 import models.BlogUser;
-import models.PlatformUser;
 
 @Stateless
 public class UserManager extends ManagerBeans {
