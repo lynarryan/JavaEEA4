@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<groupId>Assingment4JavaEE</groupId>
 	<artifactId>Assingment4JavaEE</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -37,6 +37,18 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.microprofile.openapi </groupId>
+			<artifactId>microprofile-openapi-api</artifactId>
+			<version>${eclipse.microprofile.openapi.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+		  <groupId>org.eclipse.microprofile.config</groupId>
+		  <artifactId>microprofile-config-api</artifactId>
+		  <version>${eclipse.microprofile.openapi.version}</version>
+		  <scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -81,17 +93,18 @@
 			<artifactId>h2</artifactId>
 			<version>${h2.version}</version>
 		</dependency>
-		
+
 		<dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
 	<build>
+		<finalName>a4</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

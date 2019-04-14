@@ -52,7 +52,7 @@ public class BlogUser extends ModelBase implements Serializable {
         return email;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PLAT_USER_ID")
     public PlatformUser getPlatformUser() {
         return platformUser;
@@ -66,7 +66,7 @@ public class BlogUser extends ModelBase implements Serializable {
         this.email = email;
     }
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     public List<Blog> getBlogs() {
         return blogs;
     }
@@ -77,12 +77,13 @@ public class BlogUser extends ModelBase implements Serializable {
 
     public void addBlog(Blog blog) {
         if (!this.blogs.contains(blog)) {
+            System.out.println("Adding Blog: " + blog.getId());
             this.blogs.add(blog);
             blog.setBlogUser(this);
         }
     }
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     public List<Comment> getComments() {
         return comments;
     }

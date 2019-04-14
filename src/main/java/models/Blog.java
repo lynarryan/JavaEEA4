@@ -28,8 +28,6 @@ public class Blog extends ModelBase implements Serializable {
         super();
     }
 
-    
-
     @OneToMany(mappedBy = "blog", cascade = CascadeType.REMOVE)
     public List<BlogPost> getBlogs() {
         return posts;
@@ -46,16 +44,16 @@ public class Blog extends ModelBase implements Serializable {
         }
     }
 
-    
     @JsonbTransient
     @ManyToOne
     @JoinColumn(name = "BLOG_USER_ID", nullable = false)
     public BlogUser getBlogUser() {
         return this.user;
     }
+
     public void setBlogUser(BlogUser user) {
-        this.user = user;
         user.addBlog(this);
+        this.user = user;
     }
 
     @Override
@@ -84,11 +82,9 @@ public class Blog extends ModelBase implements Serializable {
         return true;
     }
 
-
     public String getBlogName() {
         return blogName;
     }
-
 
     public void setBlogName(String blogName) {
         this.blogName = blogName;

@@ -3,6 +3,7 @@ package models;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.JoinColumn;
@@ -40,7 +41,7 @@ public class Comment extends ModelBase implements Serializable {
     public void setCommentText(String commentText) {
         this.commentText = commentText;
     }
-    
+    @JsonbTransient
     @ManyToOne
     @JoinColumn(name="OWNING_USER_ID", nullable=false)
     public BlogUser getBlogUser() {
@@ -50,7 +51,7 @@ public class Comment extends ModelBase implements Serializable {
     public void setBlogUser(BlogUser user) {
         this.user = user;
     }
-    
+    @JsonbTransient
     @ManyToOne
     @JoinColumn(name="POST_ID", nullable=false)
     public BlogPost getPost() {
