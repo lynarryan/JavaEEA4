@@ -57,7 +57,7 @@ public class BuildDefaultAdmin {
         admin.setPwHash(pwHash);
         admin.setUserName(defaultAdminUsername);
         PlatformRole platRole = new PlatformRole();
-        platRole.setRoleName("USER");
+        platRole.setRoleName("ADMIN");
         Set<PlatformRole> roles = admin.getPlatformRoles();
         roles.add(platRole);
         jpa.createUser(admin);
