@@ -216,7 +216,6 @@ public class CommentTestSuite implements TestSuiteConstants {
                 .setParameter("post", post)
                 .getResultList();
         
-        System.out.println("XXXXXXXX   "+comments.size());
         assertTrue(comments.size() == 3);    
         em.close();  
         

@@ -140,12 +140,9 @@ public class BlogTestSuite implements TestSuiteConstants {
         em.getTransaction().commit();
         
         em.getTransaction().begin();
-        //em.refresh(user);
         user.addBlog(blog3);
         em.persist(blog3);
         em.getTransaction().commit();
-
-        em.refresh(user);
 
         String findBlogsByUserName = "SELECT b FROM Blog b WHERE b.blogUser IN (SELECT bu from BlogUser bu where bu.firstName = :fn AND bu.lastName = :ln)";
         List<Blog> result = em.createQuery(findBlogsByUserName, Blog.class).setParameter("fn", user.firstName)
